@@ -1,6 +1,6 @@
 {
   "name": "magnet-uri",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Parse a magnet URI and return an object of keys/values",
   "main": "index.js",
   "devDependencies": {
@@ -11,7 +11,13 @@
   },
   "testling": {
     "files": "test/*.js",
-    "browsers": ["ie9", "ie10", "ff20", "chrome20", "safari6"]
+    "browsers": [
+      "ie9",
+      "ie10",
+      "ff20",
+      "chrome20",
+      "safari6"
+    ]
   },
   "repository": {
     "type": "git",
