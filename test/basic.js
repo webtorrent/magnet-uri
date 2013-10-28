@@ -25,7 +25,7 @@ var empty1 = ''
 var empty2 = 'magnet:'
 var empty3 = 'magnet:?'
 
-test('invalid magnet URIs throw', function (t) {
+test('empty magnet URIs return empty object', function (t) {
   t.doesNotThrow(function () { magnet(empty1) })
   t.deepEquals(magnet(empty1), {})
   t.doesNotThrow(function () { magnet(empty2) })
