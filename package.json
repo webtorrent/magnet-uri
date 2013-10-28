@@ -11,7 +11,7 @@
   },
   "testling": {
     "files": "test/*.js",
-    "browsers": ["ie9", "ie10", "ff20", "chrome20", "safari6"],
+    "browsers": ["ie9", "ie10", "ff20", "chrome20", "safari6"]
   },
   "repository": {
     "type": "git",
