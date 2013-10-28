@@ -2,6 +2,7 @@ magnet-uri
 ==========
 
 [![Build Status](https://travis-ci.org/feross/magnet-uri.png?branch=master)](https://travis-ci.org/feross/magnet-uri)
+
 [![browser support](https://ci.testling.com/feross/magnet-uri.png)](https://ci.testling.com/feross/magnet-uri)
 
 Parse a magnet URI and return an object of keys/values. If the magnet URI is invalid, this module throws an exception.
