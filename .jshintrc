@@ -2,6 +2,8 @@
   "asi": true,
   "laxbreak": true,
   "expr": true,
+  "strict": false,
   "node": true,
-  "strict": false
+  "browser": true,
+  "devel": true
 }
