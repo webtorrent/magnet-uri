@@ -18,7 +18,8 @@
       "firefox": [
         23,
         24,
-        25
+        25,
+        "nightly"
       ],
       "chrome": [
         29,
