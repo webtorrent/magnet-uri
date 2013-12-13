@@ -11,31 +11,16 @@
   },
   "testling": {
     "files": "test/*.js",
-    "browsers": {
-      "ie": [
-        10
-      ],
-      "firefox": [
-        23,
-        24,
-        25,
-        "nightly"
-      ],
-      "chrome": [
-        29,
-        30,
-        31,
-        "canary"
-      ],
-      "safari": [
-        6
-      ],
-      "opera": [
-        12,
-        17,
-        "next"
-      ]
-    }
+    "browsers": [
+      "ie/6..latest",
+      "chrome/4..latest",
+      "firefox/3..latest",
+      "safari/5.1..latest",
+      "opera/11.0..latest",
+      "iphone/6",
+      "ipad/6",
+      "android-browser/4.2"
+    ]
   },
   "repository": {
     "type": "git",
