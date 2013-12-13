@@ -13,13 +13,10 @@
     "files": "test/*.js",
     "browsers": [
       "ie/9..latest",
-      "chrome/4..latest",
-      "firefox/3..latest",
+      "chrome/25..latest",
+      "firefox/20..latest",
       "safari/6..latest",
-      "opera/15..latest",
-      "iphone/6",
-      "ipad/6",
-      "android-browser/4.2"
+      "opera/15.0..latest"
     ]
   },
   "repository": {
