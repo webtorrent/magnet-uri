@@ -4,7 +4,7 @@
   "description": "Parse a magnet URI and return an object of keys/values",
   "main": "index.js",
   "devDependencies": {
-    "tape": "*"
+    "tape": "2.x"
   },
   "scripts": {
     "test": "tape test/*.js"

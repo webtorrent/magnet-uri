@@ -3,7 +3,7 @@
  * invalid, this module throws an exception.
  *
  * @param  {string} uri
- * @return {Object}     parsed uri
+ * @return {Object} parsed uri
  */
 
 module.exports = function (uri) {
