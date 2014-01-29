@@ -1,6 +1,6 @@
 {
   "name": "magnet-uri",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Parse a magnet URI and return an object of keys/values",
   "main": "index.js",
   "devDependencies": {
