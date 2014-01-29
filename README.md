@@ -1,17 +1,20 @@
-magnet-uri
-==========
-
-[![Build Status](https://travis-ci.org/feross/magnet-uri.png?branch=master)](https://travis-ci.org/feross/magnet-uri)
+# magnet-uri
+[![Build Status](http://img.shields.io/travis/feross/magnet-uri.svg)](https://travis-ci.org/feross/magnet-uri)
+[![NPM Version](http://img.shields.io/npm/v/magnet-uri.svg)](https://npmjs.org/package/magnet-uri)
+[![NPM](http://img.shields.io/npm/dm/magnet-uri.svg)](https://npmjs.org/package/magnet-uri)
+[![Gittip](http://img.shields.io/gittip/feross.svg)](https://www.gittip.com/feross/)
 
 [![browser support](https://ci.testling.com/feross/magnet-uri.png)](https://ci.testling.com/feross/magnet-uri)
 
 Parse a magnet URI and return an object of keys/values. If the magnet URI is invalid, this module throws an exception.
 
-## Installation
+## install
 
-`npm install magnet-uri`
+```
+npm install magnet-uri
+```
 
-## Usage
+## usage
 
 ```js
 var magnet = require('magnet-uri')
@@ -43,6 +46,6 @@ The parsed magnet link object looks like this:
   }
 ```
 
-## MIT License
+## license
 
-Copyright (c) [Feross Aboukhadijeh](http://feross.org)
+MIT. Copyright (c) [Feross Aboukhadijeh](http://feross.org).
