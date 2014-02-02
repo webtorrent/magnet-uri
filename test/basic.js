@@ -44,18 +44,34 @@ test('empty string as keys is okay', function (t) {
   t.end()
 })
 
-var invalid1 = 'magnet:?xt=urn:btih:==='
-var invalid2 = 'magnet:?xt'
-var invalid3 = 'magnet:?xt=?dn='
 
 
 test('invalid magnet URIs return empty object', function (t) {
+  var invalid1 = 'magnet:?xt=urn:btih:==='
+  var invalid2 = 'magnet:?xt'
+  var invalid3 = 'magnet:?xt=?dn='
+
   t.doesNotThrow(function () { magnet(invalid1) })
   t.deepEquals(magnet(invalid1), {})
   t.doesNotThrow(function () { magnet(invalid2) })
   t.deepEquals(magnet(invalid2), {})
   t.doesNotThrow(function () { magnet(invalid3) })
   t.deepEquals(magnet(invalid3), {})
+  t.end()
+})
+
+
+test('invalid magnet URIs return only valid keys (ignoring invalid ones)', function (t) {
+  var invalid1 = 'magnet:?a=a&==='
+  var invalid2 = 'magnet:?a==&b=b'
+  var invalid3 = 'magnet:?a=b=&c=c&d==='
+
+  t.doesNotThrow(function () { magnet(invalid1) })
+  t.deepEquals(magnet(invalid1), { a: 'a' })
+  t.doesNotThrow(function () { magnet(invalid2) })
+  t.deepEquals(magnet(invalid2), { b: 'b' })
+  t.doesNotThrow(function () { magnet(invalid3) })
+  t.deepEquals(magnet(invalid3), { c: 'c' })
   t.end()
 })
 
