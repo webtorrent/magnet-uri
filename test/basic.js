@@ -40,9 +40,14 @@ var invalid1 = 'magnet:?xt=urn:btih:==='
 var invalid2 = 'magnet:?xt'
 var invalid3 = 'magnet:?xt=?dn='
 
-test('invalid magnet URIs throw', function (t) {
-  t.throws(function () { magnet(invalid1) })
-  t.throws(function () { magnet(invalid2) })
-  t.throws(function () { magnet(invalid3) })
+
+test('invalid magnet URIs return empty object', function (t) {
+  t.doesNotThrow(function () { magnet(invalid1) })
+  t.deepEquals(magnet(invalid1), {})
+  t.doesNotThrow(function () { magnet(invalid2) })
+  t.deepEquals(magnet(invalid2), {})
+  t.doesNotThrow(function () { magnet(invalid3) })
+  t.deepEquals(magnet(invalid3), {})
   t.end()
 })
+
