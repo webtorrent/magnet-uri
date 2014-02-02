@@ -1,10 +1,30 @@
 {
   "name": "magnet-uri",
-  "version": "0.1.5",
   "description": "Parse a magnet URI and return an object of keys/values",
-  "main": "index.js",
+  "version": "0.1.5",
+  "author": "Feross Aboukhadijeh <feross@feross.org> (http://feross.org/)",
+  "bugs": {
+    "url": "https://github.com/feross/magnet-uri/issues"
+  },
   "devDependencies": {
     "tape": "2.x"
+  },
+  "homepage": "https://github.com/feross/magnet-uri",
+  "keywords": [
+    "magnet",
+    "uri",
+    "urn",
+    "p2p",
+    "peer-to-peer",
+    "cryptolinks",
+    "bittorrent",
+    "webtorrent"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/feross/magnet-uri.git"
   },
   "scripts": {
     "test": "tape test/*.js"
@@ -18,25 +38,5 @@
       "safari/6..latest",
       "opera/15.0..latest"
     ]
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/feross/magnet-uri.git"
-  },
-  "keywords": [
-    "magnet",
-    "uri",
-    "urn",
-    "p2p",
-    "peer-to-peer",
-    "cryptolinks",
-    "bittorrent",
-    "webtorrent"
-  ],
-  "author": "Feross Aboukhadijeh <feross@feross.org> (http://feross.org/)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/feross/magnet-uri/issues"
-  },
-  "homepage": "https://github.com/feross/magnet-uri"
+  }
 }
