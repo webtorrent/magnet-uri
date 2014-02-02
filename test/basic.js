@@ -21,11 +21,12 @@ test('parse valid magnet uris', function (t) {
   t.end()
 })
 
-var empty1 = ''
-var empty2 = 'magnet:'
-var empty3 = 'magnet:?'
 
 test('empty magnet URIs return empty object', function (t) {
+  var empty1 = ''
+  var empty2 = 'magnet:'
+  var empty3 = 'magnet:?'
+
   t.doesNotThrow(function () { magnet(empty1) })
   t.deepEquals(magnet(empty1), {})
   t.doesNotThrow(function () { magnet(empty2) })
@@ -35,6 +36,13 @@ test('empty magnet URIs return empty object', function (t) {
   t.end()
 })
 
+test('empty string as keys is okay', function (t) {
+  var uri = 'magnet:?a=&b=&c='
+
+  t.doesNotThrow(function () { magnet(uri) })
+  t.deepEquals(magnet(uri), { a: '', b: '', c: '' })
+  t.end()
+})
 
 var invalid1 = 'magnet:?xt=urn:btih:==='
 var invalid2 = 'magnet:?xt'
