@@ -1,8 +1,8 @@
 # magnet-uri
-[![Build Status](http://img.shields.io/travis/feross/magnet-uri.png)](https://travis-ci.org/feross/magnet-uri)
-[![NPM Version](http://img.shields.io/npm/v/magnet-uri.png)](https://npmjs.org/package/magnet-uri)
-[![NPM](http://img.shields.io/npm/dm/magnet-uri.png)](https://npmjs.org/package/magnet-uri)
-[![Gittip](http://img.shields.io/gittip/feross.png)](https://www.gittip.com/feross/)
+[![Build Status](http://img.shields.io/travis/feross/magnet-uri.svg)](https://travis-ci.org/feross/magnet-uri)
+[![NPM Version](http://img.shields.io/npm/v/magnet-uri.svg)](https://npmjs.org/package/magnet-uri)
+[![NPM](http://img.shields.io/npm/dm/magnet-uri.svg)](https://npmjs.org/package/magnet-uri)
+[![Gittip](http://img.shields.io/gittip/feross.svg)](https://www.gittip.com/feross/)
 
 [![browser support](https://ci.testling.com/feross/magnet-uri.png)](https://ci.testling.com/feross/magnet-uri)
 
