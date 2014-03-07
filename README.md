@@ -26,6 +26,7 @@ var uri = 'magnet:?xt=urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36&dn=Leave
 
 var parsed = magnet(uri)
 console.log(parsed.dn) // "Leaves+of+Grass+by+Walt+Whitman.epub"
+console.log(parsed.infoHash) // "d2474e86c95b19b8bcfdb92bc12c9d44667cfa36"
 
 ```
 
@@ -41,7 +42,8 @@ The `parsed` magnet link object looks like this:
       "udp://tracker.istole.it:6969",
       "udp://tracker.ccc.de:80",
       "udp://open.demonii.com:1337"
-    ]
+    ],
+    "infoHash": "d2474e86c95b19b8bcfdb92bc12c9d44667cfa36" // added for convenience!
   }
 ```
 
