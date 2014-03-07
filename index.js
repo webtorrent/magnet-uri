@@ -1,3 +1,5 @@
+var base32 = require('thirty-two')
+
 /**
  * Parse a magnet URI and return an object of keys/values
  *
@@ -41,5 +43,21 @@ module.exports = function (uri) {
     }
   })
 
+  var m
+  if (result.xt && (m = result.xt.match(/^urn:btih:(.{40})/))) {
+    result.btih = new Buffer(m[1], 'hex').toString('hex')
+  } else if (result.xt && (m = result.xt.match(/^urn:btih:(.{32})/))) {
+    result.btih = decode_base32(m[1])
+  }
+
   return result
+}
+
+function decode_base32(s) {
+  var r = base32.decode(s);
+  var result = new Buffer(r.length);
+  for(var i = 0; i < r.length; i++) {
+    result[i] = r.charCodeAt(i);
+  }
+  return result.toString('hex');
 }

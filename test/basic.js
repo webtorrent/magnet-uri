@@ -9,6 +9,7 @@ test('parse valid magnet uris', function (t) {
   })
   t.deepEquals(magnet(leavesOfGrass), {
     "xt": "urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36",
+    "btih": "d2474e86c95b19b8bcfdb92bc12c9d44667cfa36",
     "dn": "Leaves+of+Grass+by+Walt+Whitman.epub",
     "tr": [
       "udp://tracker.openbittorrent.com:80",
@@ -75,3 +76,14 @@ test('invalid magnet URIs return only valid keys (ignoring invalid ones)', funct
   t.end()
 })
 
+test('extracts 20-char hex BitTorrent info_hash', function (t) {
+  result = magnet('magnet:?xt=urn:btih:aad050ee1bb22e196939547b134535824dabf0ce')
+  t.equal(result.btih, 'aad050ee1bb22e196939547b134535824dabf0ce')
+  t.end()
+})
+
+test('extracts 32-char base32 BitTorrent info_hash', function (t) {
+  result = magnet('magnet:?xt=urn:btih:64DZYZWMUAVLIWJUXGDIK4QGAAIN7SL6')
+  t.equal(result.btih, 'f7079c66cca02ab45934b9868572060010dfc97e')
+  t.end()
+})

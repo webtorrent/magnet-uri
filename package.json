@@ -6,6 +6,9 @@
   "bugs": {
     "url": "https://github.com/feross/magnet-uri/issues"
   },
+  "dependencies": {
+    "thirty-two": "~0.0.1"
+  },
   "devDependencies": {
     "tape": "2.x"
   },
