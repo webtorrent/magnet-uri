@@ -39,7 +39,17 @@ The `parsed` magnet link object looks like this:
       "udp://tracker.ccc.de:80",
       "udp://open.demonii.com:1337"
     ],
-    "infoHash": "d2474e86c95b19b8bcfdb92bc12c9d44667cfa36" // added for convenience!
+
+    // added for convenience:
+    "infoHash": "d2474e86c95b19b8bcfdb92bc12c9d44667cfa36",
+    "name": "Leaves of Grass by Walt Whitman.epub",
+    "announce": [
+      "udp://tracker.openbittorrent.com:80",
+      "udp://tracker.publicbt.com:80",
+      "udp://tracker.istole.it:6969",
+      "udp://tracker.ccc.de:80",
+      "udp://open.demonii.com:1337"
+    ]
   }
 ```
 
