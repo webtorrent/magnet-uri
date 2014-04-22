@@ -9,7 +9,7 @@ test('parse valid magnet uris', function (t) {
   })
   result = magnet(leavesOfGrass)
   t.equal(result.xt, "urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36")
-  t.equal(result.dn, "Leaves+of+Grass+by+Walt+Whitman.epub")
+  t.equal(result.dn, "Leaves of Grass by Walt Whitman.epub")
   t.equal(result.infoHash, "d2474e86c95b19b8bcfdb92bc12c9d44667cfa36")
   t.deepEquals(result.tr, [
       "udp://tracker.openbittorrent.com:80",
@@ -20,7 +20,6 @@ test('parse valid magnet uris', function (t) {
   ])
   t.end()
 })
-
 
 test('empty magnet URIs return empty object', function (t) {
   var empty1 = ''
@@ -44,8 +43,6 @@ test('empty string as keys is okay', function (t) {
   t.end()
 })
 
-
-
 test('invalid magnet URIs return empty object', function (t) {
   var invalid1 = 'magnet:?xt=urn:btih:==='
   var invalid2 = 'magnet:?xt'
@@ -59,7 +56,6 @@ test('invalid magnet URIs return empty object', function (t) {
   t.deepEquals(magnet(invalid3), {})
   t.end()
 })
-
 
 test('invalid magnet URIs return only valid keys (ignoring invalid ones)', function (t) {
   var invalid1 = 'magnet:?a=a&==='

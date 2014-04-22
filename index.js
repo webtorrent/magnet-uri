@@ -6,7 +6,6 @@ var base32 = require('thirty-two')
  * @param  {string} uri
  * @return {Object} parsed uri
  */
-
 module.exports = function (uri) {
   var result = {}
   var data = uri.split('magnet:?')[1]
@@ -26,9 +25,17 @@ module.exports = function (uri) {
     var key = keyval[0]
     var val = keyval[1]
 
+    // Clean up torrent name
+    if (key === 'dn')
+      val = decodeURIComponent(val).replace(/\+/g, ' ')
+
     // Address tracker (tr) is an encoded URI, so decode it
     if (key === 'tr')
       val = decodeURIComponent(val)
+
+    // Return keywords as an array
+    if (key === 'kt')
+      val = decodeURIComponent(val).split('+')
 
     // If there are repeated parameters, return an array of values
     if (result[key]) {
@@ -43,6 +50,7 @@ module.exports = function (uri) {
     }
   })
 
+  // Convenience properties to match parse-torrent results
   var m
   if (result.xt && (m = result.xt.match(/^urn:btih:(.{40})/))) {
     result.infoHash = new Buffer(m[1], 'hex').toString('hex')
@@ -51,11 +59,13 @@ module.exports = function (uri) {
     result.infoHash = new Buffer(decodedStr, 'binary').toString('hex')
   }
 
-  // Convenience properties to match parse-torrent results. 
-  // Maybe in the future we could simply ignore 'minified' properties.
-  if (result.dn) result.name = decodeURIComponent(result.dn).replace('+', ' ')
-  if (result.kt) result.keywords = decodeURIComponent(result.kt).split('+')
-  if (result.tr) result.announce = result.tr
+  if (result.dn)
+    result.name = result.dn
+  if (result.tr)
+    result.announce = result.tr
+  if (result.kt)
+    result.keywords = result.kt
+
   //if (result.mt) // TODO: link to the metafile that contains a list of magneto (MAGMA – MAGnet MAnifest)
   //if (result.xl) // TODO: xl (eXact Length) – Size in bytes
   //if (result.as) // TODO: as (Acceptable Source) – Web link to the file online

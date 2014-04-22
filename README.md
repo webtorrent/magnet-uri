@@ -31,7 +31,7 @@ The `parsed` magnet link object looks like this:
 ```js
   {
     "xt": "urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36",
-    "dn": "Leaves+of+Grass+by+Walt+Whitman.epub",
+    "dn": "Leaves of Grass by Walt Whitman.epub",
     "tr": [
       "udp://tracker.openbittorrent.com:80",
       "udp://tracker.publicbt.com:80",
