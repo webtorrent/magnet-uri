@@ -48,8 +48,18 @@ module.exports = function (uri) {
     result.infoHash = new Buffer(m[1], 'hex').toString('hex')
   } else if (result.xt && (m = result.xt.match(/^urn:btih:(.{32})/))) {
     var decodedStr = base32.decode(m[1])
-    result.infoHash = new Buffer(decodedStr, 'binary').toString('hex');
+    result.infoHash = new Buffer(decodedStr, 'binary').toString('hex')
   }
+
+  // Convenience properties to match parse-torrent results. 
+  // Maybe in the future we could simply ignore 'minified' properties.
+  if (result.dn) result.name = decodeURIComponent(result.dn).replace('+', ' ')
+  if (result.kt) result.keywords = decodeURIComponent(result.kt).split('+')
+  if (result.tr) result.announce = result.tr
+  //if (result.mt) // TODO: link to the metafile that contains a list of magneto (MAGMA – MAGnet MAnifest)
+  //if (result.xl) // TODO: xl (eXact Length) – Size in bytes
+  //if (result.as) // TODO: as (Acceptable Source) – Web link to the file online
+  //if (result.xs) // TODO: xs (eXact Source) – P2P link.
 
   return result
 }

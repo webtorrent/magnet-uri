@@ -7,18 +7,17 @@ test('parse valid magnet uris', function (t) {
   t.doesNotThrow(function () {
     magnet(leavesOfGrass)
   })
-  t.deepEquals(magnet(leavesOfGrass), {
-    "xt": "urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36",
-    "infoHash": "d2474e86c95b19b8bcfdb92bc12c9d44667cfa36",
-    "dn": "Leaves+of+Grass+by+Walt+Whitman.epub",
-    "tr": [
+  result = magnet(leavesOfGrass)
+  t.equal(result.xt, "urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36")
+  t.equal(result.dn, "Leaves+of+Grass+by+Walt+Whitman.epub")
+  t.equal(result.infoHash, "d2474e86c95b19b8bcfdb92bc12c9d44667cfa36")
+  t.deepEquals(result.tr, [
       "udp://tracker.openbittorrent.com:80",
       "udp://tracker.publicbt.com:80",
       "udp://tracker.istole.it:6969",
       "udp://tracker.ccc.de:80",
       "udp://open.demonii.com:1337"
-    ]
-  })
+  ])
   t.end()
 })
 
@@ -85,5 +84,11 @@ test('extracts 20-char hex BitTorrent info_hash', function (t) {
 test('extracts 32-char base32 BitTorrent info_hash', function (t) {
   result = magnet('magnet:?xt=urn:btih:64DZYZWMUAVLIWJUXGDIK4QGAAIN7SL6')
   t.equal(result.infoHash, 'f7079c66cca02ab45934b9868572060010dfc97e')
+  t.end()
+})
+
+test('extracts keywords', function (t) {
+  result = magnet('magnet:?xt=urn:btih:64DZYZWMUAVLIWJUXGDIK4QGAAIN7SL6&kt=joe+blow+mp3')
+  t.deepEqual(result.keywords, ['joe','blow','mp3'])
   t.end()
 })
