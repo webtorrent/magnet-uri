@@ -71,7 +71,7 @@ test('invalid magnet URIs return only valid keys (ignoring invalid ones)', funct
   t.end()
 })
 
-test('extracts 20-char hex BitTorrent info_hash', function (t) {
+test('extracts 40-char hex BitTorrent info_hash', function (t) {
   result = magnet('magnet:?xt=urn:btih:aad050ee1bb22e196939547b134535824dabf0ce')
   t.equal(result.infoHash, 'aad050ee1bb22e196939547b134535824dabf0ce')
   t.end()
