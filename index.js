@@ -50,7 +50,7 @@ module.exports = function (uri) {
     }
   })
 
-  // Convenience properties to match parse-torrent results
+  // Convenience properties for parity with `parse-torrent-file`
   var m
   if (result.xt && (m = result.xt.match(/^urn:btih:(.{40})/))) {
     result.infoHash = new Buffer(m[1], 'hex').toString('hex')
@@ -58,18 +58,15 @@ module.exports = function (uri) {
     var decodedStr = base32.decode(m[1])
     result.infoHash = new Buffer(decodedStr, 'binary').toString('hex')
   }
-
   if (result.dn)
     result.name = result.dn
-  if (result.tr)
-    result.announce = result.tr
   if (result.kt)
     result.keywords = result.kt
-
-  //if (result.mt) // TODO: link to the metafile that contains a list of magneto (MAGMA – MAGnet MAnifest)
-  //if (result.xl) // TODO: xl (eXact Length) – Size in bytes
-  //if (result.as) // TODO: as (Acceptable Source) – Web link to the file online
-  //if (result.xs) // TODO: xs (eXact Source) – P2P link.
+  // always make `announce` property an array, for parity with `parse-torrent-file`
+  if (typeof result.tr === 'string')
+    result.announce = [ result.tr ]
+  else if (Array.isArray(result.tr))
+    result.announce = result.tr
 
   return result
 }
