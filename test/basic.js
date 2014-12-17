@@ -7,17 +7,28 @@ test('parse valid magnet uris', function (t) {
   t.doesNotThrow(function () {
     magnet(leavesOfGrass)
   })
-  result = magnet(leavesOfGrass)
-  t.equal(result.xt, "urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36")
-  t.equal(result.dn, "Leaves of Grass by Walt Whitman.epub")
-  t.equal(result.infoHash, "d2474e86c95b19b8bcfdb92bc12c9d44667cfa36")
-  t.deepEquals(result.tr, [
-      "udp://tracker.openbittorrent.com:80",
-      "udp://tracker.publicbt.com:80",
-      "udp://tracker.istole.it:6969",
-      "udp://tracker.ccc.de:80",
-      "udp://open.demonii.com:1337"
-  ])
+  var result = magnet(leavesOfGrass)
+  t.equal(result.xt, 'urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36')
+  t.equal(result.dn, 'Leaves of Grass by Walt Whitman.epub')
+  t.equal(result.infoHash, 'd2474e86c95b19b8bcfdb92bc12c9d44667cfa36')
+  var announce = [
+    'udp://tracker.openbittorrent.com:80',
+    'udp://tracker.publicbt.com:80',
+    'udp://tracker.istole.it:6969',
+    'udp://tracker.ccc.de:80',
+    'udp://open.demonii.com:1337'
+  ]
+  var announceList = [
+    [ 'udp://tracker.openbittorrent.com:80' ],
+    [ 'udp://tracker.publicbt.com:80' ],
+    [ 'udp://tracker.istole.it:6969' ],
+    [ 'udp://tracker.ccc.de:80' ],
+    [ 'udp://open.demonii.com:1337' ]
+  ]
+  t.deepEquals(result.tr, announce)
+  t.deepEquals(result.announce, announce)
+  t.deepEquals(result.announceList, announceList)
+
   t.end()
 })
 
@@ -72,19 +83,19 @@ test('invalid magnet URIs return only valid keys (ignoring invalid ones)', funct
 })
 
 test('extracts 40-char hex BitTorrent info_hash', function (t) {
-  result = magnet('magnet:?xt=urn:btih:aad050ee1bb22e196939547b134535824dabf0ce')
+  var result = magnet('magnet:?xt=urn:btih:aad050ee1bb22e196939547b134535824dabf0ce')
   t.equal(result.infoHash, 'aad050ee1bb22e196939547b134535824dabf0ce')
   t.end()
 })
 
 test('extracts 32-char base32 BitTorrent info_hash', function (t) {
-  result = magnet('magnet:?xt=urn:btih:64DZYZWMUAVLIWJUXGDIK4QGAAIN7SL6')
+  var result = magnet('magnet:?xt=urn:btih:64DZYZWMUAVLIWJUXGDIK4QGAAIN7SL6')
   t.equal(result.infoHash, 'f7079c66cca02ab45934b9868572060010dfc97e')
   t.end()
 })
 
 test('extracts keywords', function (t) {
-  result = magnet('magnet:?xt=urn:btih:64DZYZWMUAVLIWJUXGDIK4QGAAIN7SL6&kt=joe+blow+mp3')
+  var result = magnet('magnet:?xt=urn:btih:64DZYZWMUAVLIWJUXGDIK4QGAAIN7SL6&kt=joe+blow+mp3')
   t.deepEqual(result.keywords, ['joe','blow','mp3'])
   t.end()
 })

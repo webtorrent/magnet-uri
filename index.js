@@ -45,7 +45,7 @@ module.exports = function (uri) {
     }
   })
 
-  // Convenience properties for parity with `parse-torrent-file`
+  // Convenience properties for parity with `parse-torrent-file` module
   var m
   if (result.xt && (m = result.xt.match(/^urn:btih:(.{40})/))) {
     result.infoHash = new Buffer(m[1], 'hex').toString('hex')
@@ -55,11 +55,13 @@ module.exports = function (uri) {
   }
   if (result.dn) result.name = result.dn
   if (result.kt) result.keywords = result.kt
-  // always make `announce` property an array, for parity with `parse-torrent-file`
-  if (typeof result.tr === 'string')
-    result.announce = [ result.tr ]
-  else if (Array.isArray(result.tr))
-    result.announce = result.tr
+
+  if (typeof result.tr === 'string') result.announce = [ result.tr ]
+  else if (Array.isArray(result.tr)) result.announce = result.tr
+
+  if (result.announce) result.announceList = result.announce.map(function (url) {
+    return [ url ]
+  })
 
   return result
 }
