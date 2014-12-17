@@ -10,8 +10,7 @@ module.exports = function (uri) {
   var result = {}
   var data = uri.split('magnet:?')[1]
 
-  if (!data || data.length === 0)
-    return result
+  if (!data || data.length === 0) return result
 
   var params = data.split('&')
 
@@ -19,23 +18,19 @@ module.exports = function (uri) {
     var keyval = param.split('=')
 
     // This keyval is invalid, skip it
-    if (keyval.length !== 2)
-      return
+    if (keyval.length !== 2) return
 
     var key = keyval[0]
     var val = keyval[1]
 
     // Clean up torrent name
-    if (key === 'dn')
-      val = decodeURIComponent(val).replace(/\+/g, ' ')
+    if (key === 'dn') val = decodeURIComponent(val).replace(/\+/g, ' ')
 
     // Address tracker (tr) is an encoded URI, so decode it
-    if (key === 'tr')
-      val = decodeURIComponent(val)
+    if (key === 'tr') val = decodeURIComponent(val)
 
     // Return keywords as an array
-    if (key === 'kt')
-      val = decodeURIComponent(val).split('+')
+    if (key === 'kt') val = decodeURIComponent(val).split('+')
 
     // If there are repeated parameters, return an array of values
     if (result[key]) {
@@ -58,10 +53,8 @@ module.exports = function (uri) {
     var decodedStr = base32.decode(m[1])
     result.infoHash = new Buffer(decodedStr, 'binary').toString('hex')
   }
-  if (result.dn)
-    result.name = result.dn
-  if (result.kt)
-    result.keywords = result.kt
+  if (result.dn) result.name = result.dn
+  if (result.kt) result.keywords = result.kt
   // always make `announce` property an array, for parity with `parse-torrent-file`
   if (typeof result.tr === 'string')
     result.announce = [ result.tr ]
