@@ -26,8 +26,9 @@ module.exports = function (uri) {
     // Clean up torrent name
     if (key === 'dn') val = decodeURIComponent(val).replace(/\+/g, ' ')
 
-    // Address tracker (tr) is an encoded URI, so decode it
-    if (key === 'tr') val = decodeURIComponent(val)
+    // Address tracker (tr), exact source (xs), and acceptable source (as) are encoded
+    // URIs, so decode them
+    if (key === 'tr' || key === 'xs' || key === 'as') val = decodeURIComponent(val)
 
     // Return keywords as an array
     if (key === 'kt') val = decodeURIComponent(val).split('+')
