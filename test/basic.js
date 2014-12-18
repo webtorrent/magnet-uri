@@ -99,3 +99,28 @@ test('extracts keywords', function (t) {
   t.deepEqual(result.keywords, ['joe','blow','mp3'])
   t.end()
 })
+
+test('complicated magnet uri (multiple xt params, and as, xs)', function (t) {
+  var result = magnet('magnet:?xt=urn:ed2k:354B15E68FB8F36D7CD88FF94116CDC1&xt=urn:tree:tiger:7N5OAMRNGMSSEUE3ORHOKWN4WWIQ5X4EBOOTLJY&xt=urn:btih:QHQXPYWMACKDWKP47RRVIV7VOURXFE5Q&xl=10826029&dn=mediawiki-1.15.1.tar.gz&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&as=http%3A%2F%2Fdownload.wikimedia.org%2Fmediawiki%2F1.15%2Fmediawiki-1.15.1.tar.gz&xs=http%3A%2F%2Fcache.example.org%2FXRX2PEFXOOEJFRVUCX6HMZMKS5TWG4K5&xs=dchub://example.org')
+  t.equal(result.infoHash, '81e177e2cc00943b29fcfc635457f575237293b0')
+  t.deepEquals(result.xt, [
+    'urn:ed2k:354B15E68FB8F36D7CD88FF94116CDC1',
+    'urn:tree:tiger:7N5OAMRNGMSSEUE3ORHOKWN4WWIQ5X4EBOOTLJY',
+    'urn:btih:QHQXPYWMACKDWKP47RRVIV7VOURXFE5Q'
+  ])
+  t.equal(result.xl, '10826029')
+  t.equal(result.dn, 'mediawiki-1.15.1.tar.gz')
+  var announce = 'udp://tracker.openbittorrent.com:80/announce'
+  var announceList = [
+    [ 'udp://tracker.openbittorrent.com:80/announce' ]
+  ]
+  t.equal(result.tr, announce)
+  t.deepEquals(result.announce, [ announce ])
+  t.deepEquals(result.announceList, announceList)
+  t.equal(result.as, 'http://download.wikimedia.org/mediawiki/1.15/mediawiki-1.15.1.tar.gz')
+  t.deepEquals(result.xs, [
+    'http://cache.example.org/XRX2PEFXOOEJFRVUCX6HMZMKS5TWG4K5',
+    'dchub://example.org'
+  ])
+  t.end()
+})
