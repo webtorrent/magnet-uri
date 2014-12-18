@@ -48,12 +48,18 @@ module.exports = function (uri) {
 
   // Convenience properties for parity with `parse-torrent-file` module
   var m
-  if (result.xt && (m = result.xt.match(/^urn:btih:(.{40})/))) {
-    result.infoHash = new Buffer(m[1], 'hex').toString('hex')
-  } else if (result.xt && (m = result.xt.match(/^urn:btih:(.{32})/))) {
-    var decodedStr = base32.decode(m[1])
-    result.infoHash = new Buffer(decodedStr, 'binary').toString('hex')
+  if (result.xt) {
+    var xts = Array.isArray(result.xt) ? result.xt : [ result.xt ]
+    xts.forEach(function (xt) {
+      if ((m = xt.match(/^urn:btih:(.{40})/))) {
+        result.infoHash = new Buffer(m[1], 'hex').toString('hex')
+      } else if ((m = xt.match(/^urn:btih:(.{32})/))) {
+        var decodedStr = base32.decode(m[1])
+        result.infoHash = new Buffer(decodedStr, 'binary').toString('hex')
+      }
+    })
   }
+
   if (result.dn) result.name = result.dn
   if (result.kt) result.keywords = result.kt
 
