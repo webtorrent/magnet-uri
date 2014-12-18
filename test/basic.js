@@ -4,9 +4,6 @@ var test = require('tape')
 var leavesOfGrass = 'magnet:?xt=urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36&dn=Leaves+of+Grass+by+Walt+Whitman.epub&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80&tr=udp%3A%2F%2Ftracker.istole.it%3A6969&tr=udp%3A%2F%2Ftracker.ccc.de%3A80&tr=udp%3A%2F%2Fopen.demonii.com%3A1337'
 
 test('parse valid magnet uris', function (t) {
-  t.doesNotThrow(function () {
-    magnet(leavesOfGrass)
-  })
   var result = magnet(leavesOfGrass)
   t.equal(result.xt, 'urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36')
   t.equal(result.dn, 'Leaves of Grass by Walt Whitman.epub')
@@ -37,11 +34,8 @@ test('empty magnet URIs return empty object', function (t) {
   var empty2 = 'magnet:'
   var empty3 = 'magnet:?'
 
-  t.doesNotThrow(function () { magnet(empty1) })
   t.deepEquals(magnet(empty1), {})
-  t.doesNotThrow(function () { magnet(empty2) })
   t.deepEquals(magnet(empty2), {})
-  t.doesNotThrow(function () { magnet(empty3) })
   t.deepEquals(magnet(empty3), {})
   t.end()
 })
@@ -49,7 +43,6 @@ test('empty magnet URIs return empty object', function (t) {
 test('empty string as keys is okay', function (t) {
   var uri = 'magnet:?a=&b=&c='
 
-  t.doesNotThrow(function () { magnet(uri) })
   t.deepEquals(magnet(uri), { a: '', b: '', c: '' })
   t.end()
 })
@@ -59,11 +52,8 @@ test('invalid magnet URIs return empty object', function (t) {
   var invalid2 = 'magnet:?xt'
   var invalid3 = 'magnet:?xt=?dn='
 
-  t.doesNotThrow(function () { magnet(invalid1) })
   t.deepEquals(magnet(invalid1), {})
-  t.doesNotThrow(function () { magnet(invalid2) })
   t.deepEquals(magnet(invalid2), {})
-  t.doesNotThrow(function () { magnet(invalid3) })
   t.deepEquals(magnet(invalid3), {})
   t.end()
 })
@@ -73,11 +63,8 @@ test('invalid magnet URIs return only valid keys (ignoring invalid ones)', funct
   var invalid2 = 'magnet:?a==&b=b'
   var invalid3 = 'magnet:?a=b=&c=c&d==='
 
-  t.doesNotThrow(function () { magnet(invalid1) })
   t.deepEquals(magnet(invalid1), { a: 'a' })
-  t.doesNotThrow(function () { magnet(invalid2) })
   t.deepEquals(magnet(invalid2), { b: 'b' })
-  t.doesNotThrow(function () { magnet(invalid3) })
   t.deepEquals(magnet(invalid3), { c: 'c' })
   t.end()
 })
