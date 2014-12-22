@@ -26,8 +26,9 @@ module.exports = function (uri) {
     // Clean up torrent name
     if (key === 'dn') val = decodeURIComponent(val).replace(/\+/g, ' ')
 
-    // Address tracker (tr) is an encoded URI, so decode it
-    if (key === 'tr') val = decodeURIComponent(val)
+    // Address tracker (tr), exact source (xs), and acceptable source (as) are encoded
+    // URIs, so decode them
+    if (key === 'tr' || key === 'xs' || key === 'as') val = decodeURIComponent(val)
 
     // Return keywords as an array
     if (key === 'kt') val = decodeURIComponent(val).split('+')
@@ -47,12 +48,18 @@ module.exports = function (uri) {
 
   // Convenience properties for parity with `parse-torrent-file` module
   var m
-  if (result.xt && (m = result.xt.match(/^urn:btih:(.{40})/))) {
-    result.infoHash = new Buffer(m[1], 'hex').toString('hex')
-  } else if (result.xt && (m = result.xt.match(/^urn:btih:(.{32})/))) {
-    var decodedStr = base32.decode(m[1])
-    result.infoHash = new Buffer(decodedStr, 'binary').toString('hex')
+  if (result.xt) {
+    var xts = Array.isArray(result.xt) ? result.xt : [ result.xt ]
+    xts.forEach(function (xt) {
+      if ((m = xt.match(/^urn:btih:(.{40})/))) {
+        result.infoHash = new Buffer(m[1], 'hex').toString('hex')
+      } else if ((m = xt.match(/^urn:btih:(.{32})/))) {
+        var decodedStr = base32.decode(m[1])
+        result.infoHash = new Buffer(decodedStr, 'binary').toString('hex')
+      }
+    })
   }
+
   if (result.dn) result.name = result.dn
   if (result.kt) result.keywords = result.kt
 
