@@ -84,41 +84,30 @@ function magnetURIEncode (obj) {
 
   // support official magnet key names and convenience names
   // (example: `infoHash` for `xt`, `name` for `dn`)
-  if (obj.infoHash) {
-    if (!obj.xt) obj.xt = 'urn:btih:' + obj.infoHash
-    delete obj.infoHash
-  }
-  if (obj.name) {
-    if (!obj.dn) obj.dn = obj.name
-    delete obj.name
-  }
-  if (obj.keywords) {
-    if (!obj.kt) obj.kt = obj.keywords
-    delete obj.keywords
-  }
-  if (obj.announce) {
-    if (!obj.tr) obj.tr = obj.announce
-    delete obj.announce
-  }
-  if (obj.announceList) {
-    if (!obj.tr) obj.tr = flatten(obj.announceList)
-    delete obj.announceList
-  }
+  if (obj.infoHash && !obj.xt) obj.xt = 'urn:btih:' + obj.infoHash
+  if (obj.name && !obj.dn) obj.dn = obj.name
+  if (obj.keywords && !obj.kt) obj.kt = obj.keywords
+  if (obj.announce && !obj.tr) obj.tr = obj.announce
+  if (obj.announceList && !obj.tr) obj.tr = flatten(obj.announceList)
 
   var result = 'magnet:?'
-  Object.keys(obj).forEach(function (key, i) {
-    var values = Array.isArray(obj[key]) ? obj[key] : [ obj[key] ]
-    values.forEach(function (val, j) {
-      if ((i > 0 || j > 0) && (key !== 'kt' || j === 0)) result += '&'
-
-      if (key === 'dn') val = encodeURIComponent(val).replace(/%20/g, '+')
-      if (key === 'tr' || key === 'xs' || key === 'as') val = encodeURIComponent(val)
-      if (key === 'kt') val = encodeURIComponent(val)
-
-      if (key === 'kt' && j > 0) result += '+' + val
-      else result += key + '=' + val
+  Object.keys(obj)
+    .filter(function (key) {
+      return key.length === 2
     })
-  })
+    .forEach(function (key, i) {
+      var values = Array.isArray(obj[key]) ? obj[key] : [ obj[key] ]
+      values.forEach(function (val, j) {
+        if ((i > 0 || j > 0) && (key !== 'kt' || j === 0)) result += '&'
+
+        if (key === 'dn') val = encodeURIComponent(val).replace(/%20/g, '+')
+        if (key === 'tr' || key === 'xs' || key === 'as') val = encodeURIComponent(val)
+        if (key === 'kt') val = encodeURIComponent(val)
+
+        if (key === 'kt' && j > 0) result += '+' + val
+        else result += key + '=' + val
+      })
+    })
 
   return result
 }
