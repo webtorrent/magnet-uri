@@ -3,7 +3,7 @@ var test = require('tape')
 
 var leavesOfGrass = 'magnet:?xt=urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36&dn=Leaves+of+Grass+by+Walt+Whitman.epub&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80&tr=udp%3A%2F%2Ftracker.istole.it%3A6969&tr=udp%3A%2F%2Ftracker.ccc.de%3A80&tr=udp%3A%2F%2Fopen.demonii.com%3A1337'
 
-test('parse valid magnet uris', function (t) {
+test('decode: valid magnet uris', function (t) {
   var result = magnet(leavesOfGrass)
   t.equal(result.xt, 'urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36')
   t.equal(result.dn, 'Leaves of Grass by Walt Whitman.epub')
@@ -29,7 +29,7 @@ test('parse valid magnet uris', function (t) {
   t.end()
 })
 
-test('empty magnet URIs return empty object', function (t) {
+test('decode: empty magnet URIs return empty object', function (t) {
   var empty1 = ''
   var empty2 = 'magnet:'
   var empty3 = 'magnet:?'
@@ -47,7 +47,7 @@ test('empty string as keys is okay', function (t) {
   t.end()
 })
 
-test('invalid magnet URIs return empty object', function (t) {
+test('decode: invalid magnet URIs return empty object', function (t) {
   var invalid1 = 'magnet:?xt=urn:btih:==='
   var invalid2 = 'magnet:?xt'
   var invalid3 = 'magnet:?xt=?dn='
@@ -58,7 +58,7 @@ test('invalid magnet URIs return empty object', function (t) {
   t.end()
 })
 
-test('invalid magnet URIs return only valid keys (ignoring invalid ones)', function (t) {
+test('decode: invalid magnet URIs return only valid keys (ignoring invalid ones)', function (t) {
   var invalid1 = 'magnet:?a=a&==='
   var invalid2 = 'magnet:?a==&b=b'
   var invalid3 = 'magnet:?a=b=&c=c&d==='
@@ -69,25 +69,25 @@ test('invalid magnet URIs return only valid keys (ignoring invalid ones)', funct
   t.end()
 })
 
-test('extracts 40-char hex BitTorrent info_hash', function (t) {
+test('decode: extracts 40-char hex BitTorrent info_hash', function (t) {
   var result = magnet('magnet:?xt=urn:btih:aad050ee1bb22e196939547b134535824dabf0ce')
   t.equal(result.infoHash, 'aad050ee1bb22e196939547b134535824dabf0ce')
   t.end()
 })
 
-test('extracts 32-char base32 BitTorrent info_hash', function (t) {
+test('decode: extracts 32-char base32 BitTorrent info_hash', function (t) {
   var result = magnet('magnet:?xt=urn:btih:64DZYZWMUAVLIWJUXGDIK4QGAAIN7SL6')
   t.equal(result.infoHash, 'f7079c66cca02ab45934b9868572060010dfc97e')
   t.end()
 })
 
-test('extracts keywords', function (t) {
+test('decode: extracts keywords', function (t) {
   var result = magnet('magnet:?xt=urn:btih:64DZYZWMUAVLIWJUXGDIK4QGAAIN7SL6&kt=joe+blow+mp3')
   t.deepEqual(result.keywords, ['joe','blow','mp3'])
   t.end()
 })
 
-test('complicated magnet uri (multiple xt params, and as, xs)', function (t) {
+test('decode: complicated magnet uri (multiple xt params, and as, xs)', function (t) {
   var result = magnet('magnet:?xt=urn:ed2k:354B15E68FB8F36D7CD88FF94116CDC1&xt=urn:tree:tiger:7N5OAMRNGMSSEUE3ORHOKWN4WWIQ5X4EBOOTLJY&xt=urn:btih:QHQXPYWMACKDWKP47RRVIV7VOURXFE5Q&xl=10826029&dn=mediawiki-1.15.1.tar.gz&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&as=http%3A%2F%2Fdownload.wikimedia.org%2Fmediawiki%2F1.15%2Fmediawiki-1.15.1.tar.gz&xs=http%3A%2F%2Fcache.example.org%2FXRX2PEFXOOEJFRVUCX6HMZMKS5TWG4K5&xs=dchub://example.org')
   t.equal(result.infoHash, '81e177e2cc00943b29fcfc635457f575237293b0')
   t.deepEquals(result.xt, [
