@@ -1,4 +1,10 @@
+module.exports = magnetURIDecode
+module.exports.decode = magnetURIDecode
+module.exports.encode = magnetURIEncode
+
 var base32 = require('thirty-two')
+var extend = require('extend.js')
+var flatten = require('flatten')
 
 /**
  * Parse a magnet URI and return an object of keys/values
@@ -6,7 +12,7 @@ var base32 = require('thirty-two')
  * @param  {string} uri
  * @return {Object} parsed uri
  */
-module.exports = function (uri) {
+function magnetURIDecode (uri) {
   var result = {}
   var data = uri.split('magnet:?')[1]
 
@@ -68,6 +74,50 @@ module.exports = function (uri) {
 
   if (result.announce) result.announceList = result.announce.map(function (url) {
     return [ url ]
+  })
+
+  return result
+}
+
+function magnetURIEncode (obj) {
+  obj = extend({}, obj) // clone obj, so we can mutate it
+
+  // support official magnet key names and convenience names
+  // (example: `infoHash` for `xt`, `name` for `dn`)
+  if (obj.infoHash) {
+    if (!obj.xt) obj.xt = 'urn:btih:' + obj.infoHash
+    delete obj.infoHash
+  }
+  if (obj.name) {
+    if (!obj.dn) obj.dn = obj.name
+    delete obj.name
+  }
+  if (obj.keywords) {
+    if (!obj.kt) obj.kt = obj.keywords
+    delete obj.keywords
+  }
+  if (obj.announce) {
+    if (!obj.tr) obj.tr = obj.announce
+    delete obj.announce
+  }
+  if (obj.announceList) {
+    if (!obj.tr) obj.tr = flatten(obj.announceList)
+    delete obj.announceList
+  }
+
+  var result = 'magnet:?'
+  Object.keys(obj).forEach(function (key, i) {
+    var values = Array.isArray(obj[key]) ? obj[key] : [ obj[key] ]
+    values.forEach(function (val, j) {
+      if ((i > 0 || j > 0) && (key !== 'kt' || j === 0)) result += '&'
+
+      if (key === 'dn') val = encodeURIComponent(val).replace(/%20/g, '+')
+      if (key === 'tr' || key === 'xs' || key === 'as') val = encodeURIComponent(val)
+      if (key === 'kt') val = encodeURIComponent(val)
+
+      if (key === 'kt' && j > 0) result += '+' + val
+      else result += key + '=' + val
+    })
   })
 
   return result
