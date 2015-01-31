@@ -3,7 +3,7 @@ module.exports.decode = magnetURIDecode
 module.exports.encode = magnetURIEncode
 
 var base32 = require('thirty-two')
-var extend = require('extend.js')
+var extend = require('xtend')
 var flatten = require('flatten')
 
 /**
@@ -80,7 +80,7 @@ function magnetURIDecode (uri) {
 }
 
 function magnetURIEncode (obj) {
-  obj = extend({}, obj) // clone obj, so we can mutate it
+  obj = extend(obj) // clone obj, so we can mutate it
 
   // support official magnet key names and convenience names
   // (example: `infoHash` for `xt`, `name` for `dn`)
