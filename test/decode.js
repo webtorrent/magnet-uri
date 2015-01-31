@@ -83,7 +83,7 @@ test('decode: extracts 32-char base32 BitTorrent info_hash', function (t) {
 
 test('decode: extracts keywords', function (t) {
   var result = magnet('magnet:?xt=urn:btih:64DZYZWMUAVLIWJUXGDIK4QGAAIN7SL6&kt=joe+blow+mp3')
-  t.deepEqual(result.keywords, ['joe','blow','mp3'])
+  t.deepEqual(result.keywords, ['joe', 'blow', 'mp3'])
   t.end()
 })
 

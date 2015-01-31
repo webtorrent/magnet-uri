@@ -24,7 +24,6 @@ test('encode: complicated magnet uri (multiple xt params, and as, xs)', function
   t.end()
 })
 
-
 test('encode: simple magnet uri using convenience names', function (t) {
   var obj = {
     xt: 'urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
@@ -53,7 +52,7 @@ test('encode: simple magnet uri using convenience names', function (t) {
       [ 'udp://open.demonii.com:1337' ]
     ],
     kt: [ 'hey', 'hey2' ],
-    keywords: [ 'hey', 'hey2' ],
+    keywords: [ 'hey', 'hey2' ]
   }
 
   var result = magnet.encode(obj)
