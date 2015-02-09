@@ -51,13 +51,17 @@ test('encode: simple magnet uri using convenience names', function (t) {
       [ 'udp://tracker.ccc.de:80' ],
       [ 'udp://open.demonii.com:1337' ]
     ],
+    urlList: [
+      'http://download.wikimedia.org/mediawiki/1.15/mediawiki-1.15.1.tar.gz'
+    ],
+    ws: 'http://download.wikimedia.org/mediawiki/1.15/mediawiki-1.15.1.tar.gz',
     kt: [ 'hey', 'hey2' ],
     keywords: [ 'hey', 'hey2' ]
   }
 
   var result = magnet.encode(obj)
 
-  t.equal(result, 'magnet:?xt=urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36&dn=Leaves+of+Grass+by+Walt+Whitman.epub&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80&tr=udp%3A%2F%2Ftracker.istole.it%3A6969&tr=udp%3A%2F%2Ftracker.ccc.de%3A80&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&kt=hey+hey2')
+  t.equal(result, 'magnet:?xt=urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36&dn=Leaves+of+Grass+by+Walt+Whitman.epub&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80&tr=udp%3A%2F%2Ftracker.istole.it%3A6969&tr=udp%3A%2F%2Ftracker.ccc.de%3A80&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&ws=http%3A%2F%2Fdownload.wikimedia.org%2Fmediawiki%2F1.15%2Fmediawiki-1.15.1.tar.gz&kt=hey+hey2')
 
   t.deepEqual(magnet.decode(result), obj)
 

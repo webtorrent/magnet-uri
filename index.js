@@ -16,9 +16,9 @@ function magnetURIDecode (uri) {
   var result = {}
   var data = uri.split('magnet:?')[1]
 
-  if (!data || data.length === 0) return result
-
-  var params = data.split('&')
+  var params = (data && data.length >= 0)
+    ? data.split('&')
+    : []
 
   params.forEach(function (param) {
     var keyval = param.split('=')
@@ -34,7 +34,8 @@ function magnetURIDecode (uri) {
 
     // Address tracker (tr), exact source (xs), and acceptable source (as) are encoded
     // URIs, so decode them
-    if (key === 'tr' || key === 'xs' || key === 'as') val = decodeURIComponent(val)
+    if (key === 'tr' || key === 'xs' || key === 'as' || key === 'ws')
+      val = decodeURIComponent(val)
 
     // Return keywords as an array
     if (key === 'kt') val = decodeURIComponent(val).split('+')
@@ -71,10 +72,17 @@ function magnetURIDecode (uri) {
 
   if (typeof result.tr === 'string') result.announce = [ result.tr ]
   else if (Array.isArray(result.tr)) result.announce = result.tr
+  else result.announce = []
 
-  if (result.announce) result.announceList = result.announce.map(function (url) {
+  result.announceList = result.announce.map(function (url) {
     return [ url ]
   })
+
+  result.urlList = []
+  if (typeof result.as === 'string' || Array.isArray(result.as))
+    result.urlList = result.urlList.concat(result.as)
+  if (typeof result.ws === 'string' || Array.isArray(result.ws))
+    result.urlList = result.urlList.concat(result.ws)
 
   return result
 }
@@ -84,11 +92,15 @@ function magnetURIEncode (obj) {
 
   // support official magnet key names and convenience names
   // (example: `infoHash` for `xt`, `name` for `dn`)
-  if (obj.infoHash && !obj.xt) obj.xt = 'urn:btih:' + obj.infoHash
-  if (obj.name && !obj.dn) obj.dn = obj.name
-  if (obj.keywords && !obj.kt) obj.kt = obj.keywords
-  if (obj.announce && !obj.tr) obj.tr = obj.announce
-  if (obj.announceList && !obj.tr) obj.tr = flatten(obj.announceList)
+  if (obj.infoHash) obj.xt = 'urn:btih:' + obj.infoHash
+  if (obj.name) obj.dn = obj.name
+  if (obj.keywords) obj.kt = obj.keywords
+  if (obj.announce) obj.tr = obj.announce
+  if (obj.announceList) obj.tr = flatten(obj.announceList)
+  if (obj.urlList) {
+    obj.ws = flatten(obj.urlList)
+    delete obj.as
+  }
 
   var result = 'magnet:?'
   Object.keys(obj)
@@ -101,7 +113,8 @@ function magnetURIEncode (obj) {
         if ((i > 0 || j > 0) && (key !== 'kt' || j === 0)) result += '&'
 
         if (key === 'dn') val = encodeURIComponent(val).replace(/%20/g, '+')
-        if (key === 'tr' || key === 'xs' || key === 'as') val = encodeURIComponent(val)
+        if (key === 'tr' || key === 'xs' || key === 'as' || key === 'ws')
+          val = encodeURIComponent(val)
         if (key === 'kt') val = encodeURIComponent(val)
 
         if (key === 'kt' && j > 0) result += '+' + val

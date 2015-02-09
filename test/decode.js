@@ -1,7 +1,10 @@
+var extend = require('xtend')
 var magnet = require('../')
 var test = require('tape')
 
 var leavesOfGrass = 'magnet:?xt=urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36&dn=Leaves+of+Grass+by+Walt+Whitman.epub&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80&tr=udp%3A%2F%2Ftracker.istole.it%3A6969&tr=udp%3A%2F%2Ftracker.ccc.de%3A80&tr=udp%3A%2F%2Fopen.demonii.com%3A1337'
+
+var empty = { announce: [], announceList: [], urlList: [] }
 
 test('decode: valid magnet uris', function (t) {
   var result = magnet(leavesOfGrass)
@@ -22,9 +25,9 @@ test('decode: valid magnet uris', function (t) {
     [ 'udp://tracker.ccc.de:80' ],
     [ 'udp://open.demonii.com:1337' ]
   ]
-  t.deepEquals(result.tr, announce)
-  t.deepEquals(result.announce, announce)
-  t.deepEquals(result.announceList, announceList)
+  t.deepEqual(result.tr, announce)
+  t.deepEqual(result.announce, announce)
+  t.deepEqual(result.announceList, announceList)
 
   t.end()
 })
@@ -34,16 +37,16 @@ test('decode: empty magnet URIs return empty object', function (t) {
   var empty2 = 'magnet:'
   var empty3 = 'magnet:?'
 
-  t.deepEquals(magnet(empty1), {})
-  t.deepEquals(magnet(empty2), {})
-  t.deepEquals(magnet(empty3), {})
+  t.deepEqual(magnet(empty1), empty)
+  t.deepEqual(magnet(empty2), empty)
+  t.deepEqual(magnet(empty3), empty)
   t.end()
 })
 
 test('empty string as keys is okay', function (t) {
   var uri = 'magnet:?a=&b=&c='
 
-  t.deepEquals(magnet(uri), { a: '', b: '', c: '' })
+  t.deepEqual(magnet(uri), extend({ a: '', b: '', c: '' }, empty))
   t.end()
 })
 
@@ -52,9 +55,9 @@ test('decode: invalid magnet URIs return empty object', function (t) {
   var invalid2 = 'magnet:?xt'
   var invalid3 = 'magnet:?xt=?dn='
 
-  t.deepEquals(magnet(invalid1), {})
-  t.deepEquals(magnet(invalid2), {})
-  t.deepEquals(magnet(invalid3), {})
+  t.deepEqual(magnet(invalid1), empty)
+  t.deepEqual(magnet(invalid2), empty)
+  t.deepEqual(magnet(invalid3), empty)
   t.end()
 })
 
@@ -63,9 +66,9 @@ test('decode: invalid magnet URIs return only valid keys (ignoring invalid ones)
   var invalid2 = 'magnet:?a==&b=b'
   var invalid3 = 'magnet:?a=b=&c=c&d==='
 
-  t.deepEquals(magnet(invalid1), { a: 'a' })
-  t.deepEquals(magnet(invalid2), { b: 'b' })
-  t.deepEquals(magnet(invalid3), { c: 'c' })
+  t.deepEqual(magnet(invalid1), extend({ a: 'a' }, empty))
+  t.deepEqual(magnet(invalid2), extend({ b: 'b' }, empty))
+  t.deepEqual(magnet(invalid3), extend({ c: 'c' }, empty))
   t.end()
 })
 
@@ -90,7 +93,7 @@ test('decode: extracts keywords', function (t) {
 test('decode: complicated magnet uri (multiple xt params, and as, xs)', function (t) {
   var result = magnet('magnet:?xt=urn:ed2k:354B15E68FB8F36D7CD88FF94116CDC1&xt=urn:tree:tiger:7N5OAMRNGMSSEUE3ORHOKWN4WWIQ5X4EBOOTLJY&xt=urn:btih:QHQXPYWMACKDWKP47RRVIV7VOURXFE5Q&xl=10826029&dn=mediawiki-1.15.1.tar.gz&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&as=http%3A%2F%2Fdownload.wikimedia.org%2Fmediawiki%2F1.15%2Fmediawiki-1.15.1.tar.gz&xs=http%3A%2F%2Fcache.example.org%2FXRX2PEFXOOEJFRVUCX6HMZMKS5TWG4K5&xs=dchub://example.org')
   t.equal(result.infoHash, '81e177e2cc00943b29fcfc635457f575237293b0')
-  t.deepEquals(result.xt, [
+  t.deepEqual(result.xt, [
     'urn:ed2k:354B15E68FB8F36D7CD88FF94116CDC1',
     'urn:tree:tiger:7N5OAMRNGMSSEUE3ORHOKWN4WWIQ5X4EBOOTLJY',
     'urn:btih:QHQXPYWMACKDWKP47RRVIV7VOURXFE5Q'
@@ -102,12 +105,24 @@ test('decode: complicated magnet uri (multiple xt params, and as, xs)', function
     [ 'udp://tracker.openbittorrent.com:80/announce' ]
   ]
   t.equal(result.tr, announce)
-  t.deepEquals(result.announce, [ announce ])
-  t.deepEquals(result.announceList, announceList)
+  t.deepEqual(result.announce, [ announce ])
+  t.deepEqual(result.announceList, announceList)
   t.equal(result.as, 'http://download.wikimedia.org/mediawiki/1.15/mediawiki-1.15.1.tar.gz')
-  t.deepEquals(result.xs, [
+  t.deepEqual(result.urlList, [ 'http://download.wikimedia.org/mediawiki/1.15/mediawiki-1.15.1.tar.gz' ])
+  t.deepEqual(result.xs, [
     'http://cache.example.org/XRX2PEFXOOEJFRVUCX6HMZMKS5TWG4K5',
     'dchub://example.org'
+  ])
+  t.end()
+})
+
+test('multiple as, ws params', function (t) {
+  var result = magnet('magnet:?xt=urn:ed2k:354B15E68FB8F36D7CD88FF94116CDC1&as=http%3A%2F%2Fdownload.wikimedia.org%2Fmediawiki%2F1.15%2Fmediawiki-1.15.1.tar.gz&as=http%3A%2F%2Fdownload.wikimedia.org%2Fmediawiki%2F1.15%2Fmediawiki-1.15.1.tar.gz1&ws=http%3A%2F%2Fdownload.wikimedia.org%2Fmediawiki%2F1.15%2Fmediawiki-1.15.1.tar.gz2&ws=http%3A%2F%2Fdownload.wikimedia.org%2Fmediawiki%2F1.15%2Fmediawiki-1.15.1.tar.gz3')
+  t.deepEqual(result.urlList, [
+    'http://download.wikimedia.org/mediawiki/1.15/mediawiki-1.15.1.tar.gz',
+    'http://download.wikimedia.org/mediawiki/1.15/mediawiki-1.15.1.tar.gz1',
+    'http://download.wikimedia.org/mediawiki/1.15/mediawiki-1.15.1.tar.gz2',
+    'http://download.wikimedia.org/mediawiki/1.15/mediawiki-1.15.1.tar.gz3'
   ])
   t.end()
 })
