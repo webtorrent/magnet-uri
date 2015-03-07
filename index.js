@@ -34,8 +34,9 @@ function magnetURIDecode (uri) {
 
     // Address tracker (tr), exact source (xs), and acceptable source (as) are encoded
     // URIs, so decode them
-    if (key === 'tr' || key === 'xs' || key === 'as' || key === 'ws')
+    if (key === 'tr' || key === 'xs' || key === 'as' || key === 'ws') {
       val = decodeURIComponent(val)
+    }
 
     // Return keywords as an array
     if (key === 'kt') val = decodeURIComponent(val).split('+')
@@ -79,10 +80,12 @@ function magnetURIDecode (uri) {
   })
 
   result.urlList = []
-  if (typeof result.as === 'string' || Array.isArray(result.as))
+  if (typeof result.as === 'string' || Array.isArray(result.as)) {
     result.urlList = result.urlList.concat(result.as)
-  if (typeof result.ws === 'string' || Array.isArray(result.ws))
+  }
+  if (typeof result.ws === 'string' || Array.isArray(result.ws)) {
     result.urlList = result.urlList.concat(result.ws)
+  }
 
   return result
 }
@@ -113,8 +116,9 @@ function magnetURIEncode (obj) {
         if ((i > 0 || j > 0) && (key !== 'kt' || j === 0)) result += '&'
 
         if (key === 'dn') val = encodeURIComponent(val).replace(/%20/g, '+')
-        if (key === 'tr' || key === 'xs' || key === 'as' || key === 'ws')
+        if (key === 'tr' || key === 'xs' || key === 'as' || key === 'ws') {
           val = encodeURIComponent(val)
+        }
         if (key === 'kt') val = encodeURIComponent(val)
 
         if (key === 'kt' && j > 0) result += '+' + val
