@@ -1,7 +1,7 @@
 {
   "name": "magnet-uri",
   "description": "Parse a magnet URI and return an object of keys/values",
-  "version": "4.2.2",
+  "version": "4.2.3",
   "author": {
     "name": "Feross Aboukhadijeh",
     "email": "feross@feross.org",
