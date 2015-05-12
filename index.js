@@ -4,6 +4,7 @@ module.exports.encode = magnetURIEncode
 
 var base32 = require('thirty-two')
 var extend = require('xtend')
+var uniq = require('uniq')
 
 /**
  * Parse a magnet URI and return an object of keys/values
@@ -73,6 +74,8 @@ function magnetURIDecode (uri) {
   if (typeof result.tr === 'string') result.announce = [ result.tr ]
   else if (Array.isArray(result.tr)) result.announce = result.tr
   else result.announce = []
+
+  uniq(result.announce)
 
   result.urlList = []
   if (typeof result.as === 'string' || Array.isArray(result.as)) {

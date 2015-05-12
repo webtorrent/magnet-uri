@@ -31,18 +31,18 @@ test('encode: simple magnet uri using convenience names', function (t) {
     name: 'Leaves of Grass by Walt Whitman.epub',
     infoHash: 'd2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
     tr: [
-      'udp://tracker.openbittorrent.com:80',
-      'udp://tracker.publicbt.com:80',
-      'udp://tracker.istole.it:6969',
+      'udp://open.demonii.com:1337',
       'udp://tracker.ccc.de:80',
-      'udp://open.demonii.com:1337'
+      'udp://tracker.istole.it:6969',
+      'udp://tracker.openbittorrent.com:80',
+      'udp://tracker.publicbt.com:80'
     ],
     announce: [
-      'udp://tracker.openbittorrent.com:80',
-      'udp://tracker.publicbt.com:80',
-      'udp://tracker.istole.it:6969',
+      'udp://open.demonii.com:1337',
       'udp://tracker.ccc.de:80',
-      'udp://open.demonii.com:1337'
+      'udp://tracker.istole.it:6969',
+      'udp://tracker.openbittorrent.com:80',
+      'udp://tracker.publicbt.com:80'
     ],
     urlList: [
       'http://download.wikimedia.org/mediawiki/1.15/mediawiki-1.15.1.tar.gz'
@@ -54,7 +54,7 @@ test('encode: simple magnet uri using convenience names', function (t) {
 
   var result = magnet.encode(obj)
 
-  t.equal(result, 'magnet:?xt=urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36&dn=Leaves+of+Grass+by+Walt+Whitman.epub&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80&tr=udp%3A%2F%2Ftracker.istole.it%3A6969&tr=udp%3A%2F%2Ftracker.ccc.de%3A80&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&ws=http%3A%2F%2Fdownload.wikimedia.org%2Fmediawiki%2F1.15%2Fmediawiki-1.15.1.tar.gz&kt=hey+hey2')
+  t.equal(result, 'magnet:?xt=urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36&dn=Leaves+of+Grass+by+Walt+Whitman.epub&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&tr=udp%3A%2F%2Ftracker.ccc.de%3A80&tr=udp%3A%2F%2Ftracker.istole.it%3A6969&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80&ws=http%3A%2F%2Fdownload.wikimedia.org%2Fmediawiki%2F1.15%2Fmediawiki-1.15.1.tar.gz&kt=hey+hey2')
 
   t.deepEqual(magnet.decode(result), obj)
 
