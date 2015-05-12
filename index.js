@@ -4,7 +4,6 @@ module.exports.encode = magnetURIEncode
 
 var base32 = require('thirty-two')
 var extend = require('xtend')
-var flatten = require('flatten')
 
 /**
  * Parse a magnet URI and return an object of keys/values
@@ -75,10 +74,6 @@ function magnetURIDecode (uri) {
   else if (Array.isArray(result.tr)) result.announce = result.tr
   else result.announce = []
 
-  result.announceList = result.announce.map(function (url) {
-    return [ url ]
-  })
-
   result.urlList = []
   if (typeof result.as === 'string' || Array.isArray(result.as)) {
     result.urlList = result.urlList.concat(result.as)
@@ -99,9 +94,8 @@ function magnetURIEncode (obj) {
   if (obj.name) obj.dn = obj.name
   if (obj.keywords) obj.kt = obj.keywords
   if (obj.announce) obj.tr = obj.announce
-  if (obj.announceList) obj.tr = flatten(obj.announceList)
   if (obj.urlList) {
-    obj.ws = flatten(obj.urlList)
+    obj.ws = obj.urlList
     delete obj.as
   }
 

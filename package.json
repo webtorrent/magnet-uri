@@ -11,7 +11,6 @@
     "url": "https://github.com/feross/magnet-uri/issues"
   },
   "dependencies": {
-    "flatten": "0.0.1",
     "thirty-two": "^0.0.2",
     "xtend": "^4.0.0"
   },

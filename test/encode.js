@@ -44,13 +44,6 @@ test('encode: simple magnet uri using convenience names', function (t) {
       'udp://tracker.ccc.de:80',
       'udp://open.demonii.com:1337'
     ],
-    announceList: [
-      [ 'udp://tracker.openbittorrent.com:80' ],
-      [ 'udp://tracker.publicbt.com:80' ],
-      [ 'udp://tracker.istole.it:6969' ],
-      [ 'udp://tracker.ccc.de:80' ],
-      [ 'udp://open.demonii.com:1337' ]
-    ],
     urlList: [
       'http://download.wikimedia.org/mediawiki/1.15/mediawiki-1.15.1.tar.gz'
     ],

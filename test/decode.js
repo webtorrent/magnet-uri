@@ -4,7 +4,7 @@ var test = require('tape')
 
 var leavesOfGrass = 'magnet:?xt=urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36&dn=Leaves+of+Grass+by+Walt+Whitman.epub&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80&tr=udp%3A%2F%2Ftracker.istole.it%3A6969&tr=udp%3A%2F%2Ftracker.ccc.de%3A80&tr=udp%3A%2F%2Fopen.demonii.com%3A1337'
 
-var empty = { announce: [], announceList: [], urlList: [] }
+var empty = { announce: [], urlList: [] }
 
 test('decode: valid magnet uris', function (t) {
   var result = magnet(leavesOfGrass)
@@ -18,16 +18,8 @@ test('decode: valid magnet uris', function (t) {
     'udp://tracker.ccc.de:80',
     'udp://open.demonii.com:1337'
   ]
-  var announceList = [
-    [ 'udp://tracker.openbittorrent.com:80' ],
-    [ 'udp://tracker.publicbt.com:80' ],
-    [ 'udp://tracker.istole.it:6969' ],
-    [ 'udp://tracker.ccc.de:80' ],
-    [ 'udp://open.demonii.com:1337' ]
-  ]
   t.deepEqual(result.tr, announce)
   t.deepEqual(result.announce, announce)
-  t.deepEqual(result.announceList, announceList)
 
   t.end()
 })
@@ -101,12 +93,8 @@ test('decode: complicated magnet uri (multiple xt params, and as, xs)', function
   t.equal(result.xl, '10826029')
   t.equal(result.dn, 'mediawiki-1.15.1.tar.gz')
   var announce = 'udp://tracker.openbittorrent.com:80/announce'
-  var announceList = [
-    [ 'udp://tracker.openbittorrent.com:80/announce' ]
-  ]
   t.equal(result.tr, announce)
   t.deepEqual(result.announce, [ announce ])
-  t.deepEqual(result.announceList, announceList)
   t.equal(result.as, 'http://download.wikimedia.org/mediawiki/1.15/mediawiki-1.15.1.tar.gz')
   t.deepEqual(result.urlList, [ 'http://download.wikimedia.org/mediawiki/1.15/mediawiki-1.15.1.tar.gz' ])
   t.deepEqual(result.xs, [
