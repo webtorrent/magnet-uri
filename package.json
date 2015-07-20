@@ -42,8 +42,5 @@
     "test-browser": "zuul -- test/*.js",
     "test-browser-local": "zuul --local -- test/*.js",
     "test-node": "tape test/*.js"
-  },
-  "testling": {
-    "files": "test/*.js"
   }
 }
