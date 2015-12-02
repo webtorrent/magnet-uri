@@ -53,6 +53,7 @@ The `parsed` magnet link object looks like this:
 
     // added for convenience:
     "infoHash": "d2474e86c95b19b8bcfdb92bc12c9d44667cfa36",
+    "infoHashBuffer": ...,
     "name": "Leaves of Grass by Walt Whitman.epub",
     "announce": [
       "udp://tracker.openbittorrent.com:80",
@@ -99,7 +100,7 @@ magnet:?xt=urn:ed2k:354B15E68FB8F36D7CD88FF94116CDC1&xt=urn:tree:tiger:7N5OAMRNG
 ```
 
 You can also use convenience key names like `name` (`dn`), `infoHash` (`xt`),
-`announce` (`tr`), and `keywords` (`kt`).
+`infoHashBuffer` (`xt`), `announce` (`tr`), and `keywords` (`kt`).
 
 ## license
 

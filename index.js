@@ -67,6 +67,7 @@ function magnetURIDecode (uri) {
       }
     })
   }
+  if (result.infoHash) result.infoHashBuffer = new Buffer(result.infoHash, 'hex')
 
   if (result.dn) result.name = result.dn
   if (result.kt) result.keywords = result.kt
@@ -91,8 +92,9 @@ function magnetURIDecode (uri) {
 function magnetURIEncode (obj) {
   obj = extend(obj) // clone obj, so we can mutate it
 
-  // support official magnet key names and convenience names
+  // support using convenience names, in addition to spec names
   // (example: `infoHash` for `xt`, `name` for `dn`)
+  if (obj.infoHashBuffer) obj.xt = 'urn:btih:' + obj.infoHashBuffer.toString('hex')
   if (obj.infoHash) obj.xt = 'urn:btih:' + obj.infoHash
   if (obj.name) obj.dn = obj.name
   if (obj.keywords) obj.kt = obj.keywords
