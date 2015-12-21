@@ -29,7 +29,7 @@ Parse a magnet URI and return an object of keys/values.
 var magnet = require('magnet-uri')
 
 // "Leaves of Grass" by Walt Whitman
-var uri = 'magnet:?xt=urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36&dn=Leaves+of+Grass+by+Walt+Whitman.epub&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80&tr=udp%3A%2F%2Ftracker.istole.it%3A6969&tr=udp%3A%2F%2Ftracker.ccc.de%3A80&tr=udp%3A%2F%2Fopen.demonii.com%3A1337'
+var uri = 'magnet:?xt=urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36&dn=Leaves+of+Grass+by+Walt+Whitman.epub&tr=udp%3A%2F%2Ftracker.example4.com%3A80&tr=udp%3A%2F%2Ftracker.example5.com%3A80&tr=udp%3A%2F%2Ftracker.example3.com%3A6969&tr=udp%3A%2F%2Ftracker.example2.com%3A80&tr=udp%3A%2F%2Ftracker.example1.com%3A1337'
 
 var parsed = magnet.decode(uri)
 console.log(parsed.dn) // "Leaves of Grass by Walt Whitman.epub"
@@ -44,11 +44,11 @@ The `parsed` magnet link object looks like this:
     "xt": "urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36",
     "dn": "Leaves of Grass by Walt Whitman.epub",
     "tr": [
-      "udp://tracker.openbittorrent.com:80",
-      "udp://tracker.publicbt.com:80",
-      "udp://tracker.istole.it:6969",
-      "udp://tracker.ccc.de:80",
-      "udp://open.demonii.com:1337"
+      "udp://tracker.example1.com:1337",
+      "udp://tracker.example2.com:80",
+      "udp://tracker.example3.com:6969",
+      "udp://tracker.example4.com:80",
+      "udp://tracker.example5.com:80"
     ],
 
     // added for convenience:
@@ -56,11 +56,11 @@ The `parsed` magnet link object looks like this:
     "infoHashBuffer": ...,
     "name": "Leaves of Grass by Walt Whitman.epub",
     "announce": [
-      "udp://tracker.openbittorrent.com:80",
-      "udp://tracker.publicbt.com:80",
-      "udp://tracker.istole.it:6969",
-      "udp://tracker.ccc.de:80",
-      "udp://open.demonii.com:1337"
+      "udp://tracker.example1.com:1337",
+      "udp://tracker.example2.com:80",
+      "udp://tracker.example3.com:6969",
+      "udp://tracker.example4.com:80",
+      "udp://tracker.example5.com:80"
     ]
   }
 ```

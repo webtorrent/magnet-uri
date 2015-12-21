@@ -2,7 +2,7 @@ var extend = require('xtend')
 var magnet = require('../')
 var test = require('tape')
 
-var leavesOfGrass = 'magnet:?xt=urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36&dn=Leaves+of+Grass+by+Walt+Whitman.epub&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80&tr=udp%3A%2F%2Ftracker.istole.it%3A6969&tr=udp%3A%2F%2Ftracker.ccc.de%3A80&tr=udp%3A%2F%2Fopen.demonii.com%3A1337'
+var leavesOfGrass = 'magnet:?xt=urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36&dn=Leaves+of+Grass+by+Walt+Whitman.epub&tr=udp%3A%2F%2Ftracker.example4.com%3A80&tr=udp%3A%2F%2Ftracker.example5.com%3A80&tr=udp%3A%2F%2Ftracker.example3.com%3A6969&tr=udp%3A%2F%2Ftracker.example2.com%3A80&tr=udp%3A%2F%2Ftracker.example1.com%3A1337'
 
 var empty = { announce: [], urlList: [] }
 
@@ -12,11 +12,11 @@ test('decode: valid magnet uris', function (t) {
   t.equal(result.dn, 'Leaves of Grass by Walt Whitman.epub')
   t.equal(result.infoHash, 'd2474e86c95b19b8bcfdb92bc12c9d44667cfa36')
   var announce = [
-    'udp://open.demonii.com:1337',
-    'udp://tracker.ccc.de:80',
-    'udp://tracker.istole.it:6969',
-    'udp://tracker.openbittorrent.com:80',
-    'udp://tracker.publicbt.com:80'
+    'udp://tracker.example1.com:1337',
+    'udp://tracker.example2.com:80',
+    'udp://tracker.example3.com:6969',
+    'udp://tracker.example4.com:80',
+    'udp://tracker.example5.com:80'
   ]
   t.deepEqual(result.tr, announce)
   t.deepEqual(result.announce, announce)
@@ -83,7 +83,7 @@ test('decode: extracts keywords', function (t) {
 })
 
 test('decode: complicated magnet uri (multiple xt params, and as, xs)', function (t) {
-  var result = magnet('magnet:?xt=urn:ed2k:354B15E68FB8F36D7CD88FF94116CDC1&xt=urn:tree:tiger:7N5OAMRNGMSSEUE3ORHOKWN4WWIQ5X4EBOOTLJY&xt=urn:btih:QHQXPYWMACKDWKP47RRVIV7VOURXFE5Q&xl=10826029&dn=mediawiki-1.15.1.tar.gz&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&as=http%3A%2F%2Fdownload.wikimedia.org%2Fmediawiki%2F1.15%2Fmediawiki-1.15.1.tar.gz&xs=http%3A%2F%2Fcache.example.org%2FXRX2PEFXOOEJFRVUCX6HMZMKS5TWG4K5&xs=dchub://example.org')
+  var result = magnet('magnet:?xt=urn:ed2k:354B15E68FB8F36D7CD88FF94116CDC1&xt=urn:tree:tiger:7N5OAMRNGMSSEUE3ORHOKWN4WWIQ5X4EBOOTLJY&xt=urn:btih:QHQXPYWMACKDWKP47RRVIV7VOURXFE5Q&xl=10826029&dn=mediawiki-1.15.1.tar.gz&tr=udp%3A%2F%2Ftracker.example4.com%3A80%2Fannounce&as=http%3A%2F%2Fdownload.wikimedia.org%2Fmediawiki%2F1.15%2Fmediawiki-1.15.1.tar.gz&xs=http%3A%2F%2Fcache.example.org%2FXRX2PEFXOOEJFRVUCX6HMZMKS5TWG4K5&xs=dchub://example.org')
   t.equal(result.infoHash, '81e177e2cc00943b29fcfc635457f575237293b0')
   t.deepEqual(result.xt, [
     'urn:ed2k:354B15E68FB8F36D7CD88FF94116CDC1',
@@ -92,7 +92,7 @@ test('decode: complicated magnet uri (multiple xt params, and as, xs)', function
   ])
   t.equal(result.xl, '10826029')
   t.equal(result.dn, 'mediawiki-1.15.1.tar.gz')
-  var announce = 'udp://tracker.openbittorrent.com:80/announce'
+  var announce = 'udp://tracker.example4.com:80/announce'
   t.equal(result.tr, announce)
   t.deepEqual(result.announce, [ announce ])
   t.equal(result.as, 'http://download.wikimedia.org/mediawiki/1.15/mediawiki-1.15.1.tar.gz')
@@ -116,13 +116,13 @@ test('multiple as, ws params', function (t) {
 })
 
 test('dedupe repeated trackers', function (t) {
-  var result = magnet('magnet:?xt=urn:ed2k:354B15E68FB8F36D7CD88FF94116CDC1&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80&tr=udp%3A%2F%2Ftracker.istole.it%3A6969&tr=udp%3A%2F%2Ftracker.ccc.de%3A80&tr=udp%3A%2F%2Fopen.demonii.com%3A1337')
+  var result = magnet('magnet:?xt=urn:ed2k:354B15E68FB8F36D7CD88FF94116CDC1&tr=udp%3A%2F%2Ftracker.example4.com%3A80&tr=udp%3A%2F%2Ftracker.example4.com%3A80&tr=udp%3A%2F%2Ftracker.example5.com%3A80&tr=udp%3A%2F%2Ftracker.example3.com%3A6969&tr=udp%3A%2F%2Ftracker.example2.com%3A80&tr=udp%3A%2F%2Ftracker.example1.com%3A1337')
   var announce = [
-    'udp://open.demonii.com:1337',
-    'udp://tracker.ccc.de:80',
-    'udp://tracker.istole.it:6969',
-    'udp://tracker.openbittorrent.com:80',
-    'udp://tracker.publicbt.com:80'
+    'udp://tracker.example1.com:1337',
+    'udp://tracker.example2.com:80',
+    'udp://tracker.example3.com:6969',
+    'udp://tracker.example4.com:80',
+    'udp://tracker.example5.com:80'
   ]
   t.deepEqual(result.announce, announce)
   t.end()
