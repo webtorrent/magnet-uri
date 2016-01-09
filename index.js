@@ -76,8 +76,6 @@ function magnetURIDecode (uri) {
   else if (Array.isArray(result.tr)) result.announce = result.tr
   else result.announce = []
 
-  uniq(result.announce)
-
   result.urlList = []
   if (typeof result.as === 'string' || Array.isArray(result.as)) {
     result.urlList = result.urlList.concat(result.as)
@@ -85,6 +83,9 @@ function magnetURIDecode (uri) {
   if (typeof result.ws === 'string' || Array.isArray(result.ws)) {
     result.urlList = result.urlList.concat(result.ws)
   }
+
+  uniq(result.announce)
+  uniq(result.urlList)
 
   return result
 }
