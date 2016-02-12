@@ -1,10 +1,10 @@
 # magnet-uri [![travis][travis-image]][travis-url] [![npm][npm-image]][npm-url] [![downloads][downloads-image]][downloads-url]
 
-[travis-image]: https://img.shields.io/travis/feross/magnet-uri/master.svg?style=flat
+[travis-image]: https://img.shields.io/travis/feross/magnet-uri/master.svg
 [travis-url]: https://travis-ci.org/feross/magnet-uri
-[npm-image]: https://img.shields.io/npm/v/magnet-uri.svg?style=flat
+[npm-image]: https://img.shields.io/npm/v/magnet-uri.svg
 [npm-url]: https://npmjs.org/package/magnet-uri
-[downloads-image]: https://img.shields.io/npm/dm/magnet-uri.svg?style=flat
+[downloads-image]: https://img.shields.io/npm/dm/magnet-uri.svg
 [downloads-url]: https://npmjs.org/package/magnet-uri
 
 ### Parse a magnet URI and return an object of keys/values.
