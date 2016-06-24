@@ -14,6 +14,8 @@ var uniq = require('uniq')
  */
 function magnetURIDecode (uri) {
   var result = {}
+
+  // Support 'magnet:' and 'stream-magnet:' uris
   var data = uri.split('magnet:?')[1]
 
   var params = (data && data.length >= 0)
