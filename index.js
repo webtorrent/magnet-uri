@@ -43,6 +43,9 @@ function magnetURIDecode (uri) {
     // Return keywords as an array
     if (key === 'kt') val = decodeURIComponent(val).split('+')
 
+    // Cast file index (ix) to a number
+    if (key === 'ix') val = Number(val)
+
     // If there are repeated parameters, return an array of values
     if (result[key]) {
       if (Array.isArray(result[key])) {

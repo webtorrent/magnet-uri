@@ -127,3 +127,10 @@ test('dedupe repeated trackers', function (t) {
   t.deepEqual(result.announce, announce)
   t.end()
 })
+
+test('Cast file index (ix) to a number', function (t) {
+  var result = magnet(leavesOfGrass + '&ix=1')
+  t.equal(typeof result.ix, 'number')
+  t.equal(result.ix, 1)
+  t.end()
+})
