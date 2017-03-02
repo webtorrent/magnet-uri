@@ -68,11 +68,11 @@ function magnetURIDecode (uri) {
         result.infoHash = m[1].toLowerCase()
       } else if ((m = xt.match(/^urn:btih:(.{32})/))) {
         var decodedStr = base32.decode(m[1])
-        result.infoHash = new Buffer(decodedStr, 'binary').toString('hex')
+        result.infoHash = Buffer.from(decodedStr, 'binary').toString('hex')
       }
     })
   }
-  if (result.infoHash) result.infoHashBuffer = new Buffer(result.infoHash, 'hex')
+  if (result.infoHash) result.infoHashBuffer = Buffer.from(result.infoHash, 'hex')
 
   if (result.dn) result.name = result.dn
   if (result.kt) result.keywords = result.kt

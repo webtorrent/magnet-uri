@@ -30,7 +30,7 @@ test('encode: simple magnet uri using convenience names', function (t) {
     dn: 'Leaves of Grass by Walt Whitman.epub',
     name: 'Leaves of Grass by Walt Whitman.epub',
     infoHash: 'd2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
-    infoHashBuffer: new Buffer('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36', 'hex'),
+    infoHashBuffer: Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36', 'hex'),
     tr: [
       'udp://tracker.example1.com:1337',
       'udp://tracker.example2.com:80',
@@ -64,12 +64,12 @@ test('encode: simple magnet uri using convenience names', function (t) {
 
 test('encode: using infoHashBuffer', function (t) {
   var obj = {
-    infoHashBuffer: new Buffer('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36', 'hex')
+    infoHashBuffer: Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36', 'hex')
   }
   var result = magnet.encode(obj)
   t.equal(result, 'magnet:?xt=urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36')
   t.deepEqual(magnet.decode(result), {
-    infoHashBuffer: new Buffer('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36', 'hex'),
+    infoHashBuffer: Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36', 'hex'),
     infoHash: 'd2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
     xt: 'urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
     urlList: [],
