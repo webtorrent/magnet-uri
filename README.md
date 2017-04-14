@@ -1,7 +1,7 @@
 # magnet-uri [![travis][travis-image]][travis-url] [![npm][npm-image]][npm-url] [![downloads][downloads-image]][downloads-url] [![javascript style guide][standard-image]][standard-url]
 
-[travis-image]: https://img.shields.io/travis/feross/magnet-uri/master.svg
-[travis-url]: https://travis-ci.org/feross/magnet-uri
+[travis-image]: https://img.shields.io/travis/webtorrent/magnet-uri/master.svg
+[travis-url]: https://travis-ci.org/webtorrent/magnet-uri
 [npm-image]: https://img.shields.io/npm/v/magnet-uri.svg
 [npm-url]: https://npmjs.org/package/magnet-uri
 [downloads-image]: https://img.shields.io/npm/dm/magnet-uri.svg
@@ -106,4 +106,4 @@ You can also use convenience key names like `name` (`dn`), `infoHash` (`xt`),
 
 ## license
 
-MIT. Copyright (c) [Feross Aboukhadijeh](http://feross.org).
+MIT. Copyright (c) [Feross Aboukhadijeh](https://feross.org) and [WebTorrent, LLC](https://webtorrent.io).
