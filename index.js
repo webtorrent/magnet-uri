@@ -104,7 +104,10 @@ function magnetURIEncode (obj) {
   if (obj.infoHash) obj.xt = 'urn:btih:' + obj.infoHash
   if (obj.name) obj.dn = obj.name
   if (obj.keywords) obj.kt = obj.keywords
-  if (obj.announce) obj.tr = obj.announce
+  if (obj.announce) {
+    uniq(obj.announce)
+    obj.tr = obj.announce
+  }
   if (obj.urlList) {
     obj.ws = obj.urlList
     delete obj.as
