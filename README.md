@@ -1,4 +1,4 @@
-# magnet-uri [![travis][travis-image]][travis-url] [![npm][npm-image]][npm-url] [![downloads][downloads-image]][downloads-url] [![javascript style guide][standard-image]][standard-url]
+# magnet-uri [![travis][travis-image]][travis-url] [![npm][npm-image]][npm-url] [![downloads][downloads-image]][downloads-url] [![javascript style guide][standard-image]][standard-url] [![Greenkeeper badge][greenkeeper-image]][greenkeeper-url]
 
 [travis-image]: https://img.shields.io/travis/webtorrent/magnet-uri/master.svg
 [travis-url]: https://travis-ci.org/webtorrent/magnet-uri
@@ -8,6 +8,8 @@
 [downloads-url]: https://npmjs.org/package/magnet-uri
 [standard-image]: https://img.shields.io/badge/code_style-standard-brightgreen.svg
 [standard-url]: https://standardjs.com
+[greenkeeper-image]: https://badges.greenkeeper.io/webtorrent/magnet-uri.svg
+[greenkeeper-url]: https://greenkeeper.io/
 
 ### Parse a magnet URI and return an object of keys/values.
 
