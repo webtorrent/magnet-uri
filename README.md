@@ -1,5 +1,7 @@
 # magnet-uri [![travis][travis-image]][travis-url] [![npm][npm-image]][npm-url] [![downloads][downloads-image]][downloads-url] [![javascript style guide][standard-image]][standard-url]
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/webtorrent/magnet-uri.svg)](https://greenkeeper.io/)
+
 [travis-image]: https://img.shields.io/travis/webtorrent/magnet-uri/master.svg
 [travis-url]: https://travis-ci.org/webtorrent/magnet-uri
 [npm-image]: https://img.shields.io/npm/v/magnet-uri.svg
