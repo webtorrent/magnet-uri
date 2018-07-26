@@ -101,8 +101,8 @@ function magnetURIEncode (obj) {
 
   // support using convenience names, in addition to spec names
   // (example: `infoHash` for `xt`, `name` for `dn`)
-  if (obj.infoHashBuffer) obj.xt = 'urn:btih:' + obj.infoHashBuffer.toString('hex')
-  if (obj.infoHash) obj.xt = 'urn:btih:' + obj.infoHash
+  if (obj.infoHashBuffer) obj.xt = `urn:btih:${obj.infoHashBuffer.toString('hex')}`
+  if (obj.infoHash) obj.xt = `urn:btih:${obj.infoHash}`
   if (obj.name) obj.dn = obj.name
   if (obj.keywords) obj.kt = obj.keywords
   if (obj.announce) obj.tr = obj.announce
@@ -125,8 +125,8 @@ function magnetURIEncode (obj) {
         }
         if (key === 'kt') val = encodeURIComponent(val)
 
-        if (key === 'kt' && j > 0) result += '+' + val
-        else result += key + '=' + val
+        if (key === 'kt' && j > 0) result += `+${val}`
+        else result += `${key}=${val}`
       })
     })
 
