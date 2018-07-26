@@ -28,12 +28,12 @@ npm install magnet-uri
 Parse a magnet URI and return an object of keys/values.
 
 ```js
-var magnet = require('magnet-uri')
+const magnet = require('magnet-uri')
 
 // "Leaves of Grass" by Walt Whitman
-var uri = 'magnet:?xt=urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36&dn=Leaves+of+Grass+by+Walt+Whitman.epub&tr=udp%3A%2F%2Ftracker.example4.com%3A80&tr=udp%3A%2F%2Ftracker.example5.com%3A80&tr=udp%3A%2F%2Ftracker.example3.com%3A6969&tr=udp%3A%2F%2Ftracker.example2.com%3A80&tr=udp%3A%2F%2Ftracker.example1.com%3A1337'
+const uri = 'magnet:?xt=urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36&dn=Leaves+of+Grass+by+Walt+Whitman.epub&tr=udp%3A%2F%2Ftracker.example4.com%3A80&tr=udp%3A%2F%2Ftracker.example5.com%3A80&tr=udp%3A%2F%2Ftracker.example3.com%3A6969&tr=udp%3A%2F%2Ftracker.example2.com%3A80&tr=udp%3A%2F%2Ftracker.example1.com%3A1337'
 
-var parsed = magnet.decode(uri)
+const parsed = magnet.decode(uri)
 console.log(parsed.dn) // "Leaves of Grass by Walt Whitman.epub"
 console.log(parsed.infoHash) // "d2474e86c95b19b8bcfdb92bc12c9d44667cfa36"
 
@@ -72,9 +72,9 @@ The `parsed` magnet link object looks like this:
 Convert an object of key/values into a magnet URI string.
 
 ```js
-var magnet = require('magnet-uri')
+const magnet = require('magnet-uri')
 
-var uri = magnet.encode({
+const uri = magnet.encode({
   xt: [
     'urn:ed2k:354B15E68FB8F36D7CD88FF94116CDC1',
     'urn:tree:tiger:7N5OAMRNGMSSEUE3ORHOKWN4WWIQ5X4EBOOTLJY',
