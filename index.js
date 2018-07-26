@@ -2,10 +2,10 @@ module.exports = magnetURIDecode
 module.exports.decode = magnetURIDecode
 module.exports.encode = magnetURIEncode
 
-var base32 = require('thirty-two')
-var Buffer = require('safe-buffer').Buffer
-var extend = require('xtend')
-var uniq = require('uniq')
+const base32 = require('thirty-two')
+const Buffer = require('safe-buffer').Buffer
+const extend = require('xtend')
+const uniq = require('uniq')
 
 /**
  * Parse a magnet URI and return an object of keys/values
@@ -14,23 +14,23 @@ var uniq = require('uniq')
  * @return {Object} parsed uri
  */
 function magnetURIDecode (uri) {
-  var result = {}
+  const result = {}
 
   // Support 'magnet:' and 'stream-magnet:' uris
-  var data = uri.split('magnet:?')[1]
+  const data = uri.split('magnet:?')[1]
 
-  var params = (data && data.length >= 0)
+  const params = (data && data.length >= 0)
     ? data.split('&')
     : []
 
-  params.forEach(function (param) {
-    var keyval = param.split('=')
+  params.forEach(param => {
+    const keyval = param.split('=')
 
     // This keyval is invalid, skip it
     if (keyval.length !== 2) return
 
-    var key = keyval[0]
-    var val = keyval[1]
+    const key = keyval[0]
+    let val = keyval[1]
 
     // Clean up torrent name
     if (key === 'dn') val = decodeURIComponent(val).replace(/\+/g, ' ')
@@ -52,7 +52,7 @@ function magnetURIDecode (uri) {
       if (Array.isArray(result[key])) {
         result[key].push(val)
       } else {
-        var old = result[key]
+        const old = result[key]
         result[key] = [old, val]
       }
     } else {
@@ -61,14 +61,14 @@ function magnetURIDecode (uri) {
   })
 
   // Convenience properties for parity with `parse-torrent-file` module
-  var m
+  let m
   if (result.xt) {
-    var xts = Array.isArray(result.xt) ? result.xt : [ result.xt ]
-    xts.forEach(function (xt) {
+    const xts = Array.isArray(result.xt) ? result.xt : [ result.xt ]
+    xts.forEach(xt => {
       if ((m = xt.match(/^urn:btih:(.{40})/))) {
         result.infoHash = m[1].toLowerCase()
       } else if ((m = xt.match(/^urn:btih:(.{32})/))) {
-        var decodedStr = base32.decode(m[1])
+        const decodedStr = base32.decode(m[1])
         result.infoHash = Buffer.from(decodedStr, 'binary').toString('hex')
       }
     })
@@ -111,14 +111,12 @@ function magnetURIEncode (obj) {
     delete obj.as
   }
 
-  var result = 'magnet:?'
+  let result = 'magnet:?'
   Object.keys(obj)
-    .filter(function (key) {
-      return key.length === 2
-    })
-    .forEach(function (key, i) {
-      var values = Array.isArray(obj[key]) ? obj[key] : [ obj[key] ]
-      values.forEach(function (val, j) {
+    .filter(key => key.length === 2)
+    .forEach((key, i) => {
+      const values = Array.isArray(obj[key]) ? obj[key] : [ obj[key] ]
+      values.forEach((val, j) => {
         if ((i > 0 || j > 0) && (key !== 'kt' || j === 0)) result += '&'
 
         if (key === 'dn') val = encodeURIComponent(val).replace(/%20/g, '+')
