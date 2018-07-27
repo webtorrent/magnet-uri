@@ -3,7 +3,6 @@ module.exports.decode = magnetURIDecode
 module.exports.encode = magnetURIEncode
 
 const base32 = require('thirty-two')
-const Buffer = require('safe-buffer').Buffer
 const extend = require('xtend')
 const uniq = require('uniq')
 
