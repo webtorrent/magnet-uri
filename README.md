@@ -11,8 +11,6 @@
 
 ### Parse a magnet URI and return an object of keys/values.
 
-[![Sauce Test Status](https://saucelabs.com/browser-matrix/magnet-uri.svg)](https://saucelabs.com/u/magnet-uri)
-
 Also works in the browser with [browserify](http://browserify.org/)! This module is used by [WebTorrent](http://webtorrent.io).
 
 ## install
