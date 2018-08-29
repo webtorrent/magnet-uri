@@ -3,7 +3,6 @@ module.exports.decode = magnetURIDecode
 module.exports.encode = magnetURIEncode
 
 const base32 = require('thirty-two')
-const extend = require('xtend')
 const uniq = require('uniq')
 
 /**
@@ -96,7 +95,7 @@ function magnetURIDecode (uri) {
 }
 
 function magnetURIEncode (obj) {
-  obj = extend(obj) // clone obj, so we can mutate it
+  obj = Object.assign({}, obj) // clone obj, so we can mutate it
 
   // support using convenience names, in addition to spec names
   // (example: `infoHash` for `xt`, `name` for `dn`)
