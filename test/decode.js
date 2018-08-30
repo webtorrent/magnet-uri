@@ -1,4 +1,3 @@
-const extend = require('xtend')
 const magnet = require('../')
 const test = require('tape')
 
@@ -38,7 +37,7 @@ test('decode: empty magnet URIs return empty object', t => {
 test('empty string as keys is okay', t => {
   const uri = 'magnet:?a=&b=&c='
 
-  t.deepEqual(magnet(uri), extend({ a: '', b: '', c: '' }, empty))
+  t.deepEqual(magnet(uri), Object.assign({ a: '', b: '', c: '' }, empty))
   t.end()
 })
 
@@ -58,9 +57,9 @@ test('decode: invalid magnet URIs return only valid keys (ignoring invalid ones)
   const invalid2 = 'magnet:?a==&b=b'
   const invalid3 = 'magnet:?a=b=&c=c&d==='
 
-  t.deepEqual(magnet(invalid1), extend({ a: 'a' }, empty))
-  t.deepEqual(magnet(invalid2), extend({ b: 'b' }, empty))
-  t.deepEqual(magnet(invalid3), extend({ c: 'c' }, empty))
+  t.deepEqual(magnet(invalid1), Object.assign({ a: 'a' }, empty))
+  t.deepEqual(magnet(invalid2), Object.assign({ b: 'b' }, empty))
+  t.deepEqual(magnet(invalid3), Object.assign({ c: 'c' }, empty))
   t.end()
 })
 

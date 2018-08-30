@@ -12,8 +12,7 @@
   },
   "dependencies": {
     "thirty-two": "^1.0.1",
-    "uniq": "^1.0.1",
-    "xtend": "^4.0.0"
+    "uniq": "^1.0.1"
   },
   "devDependencies": {
     "standard": "*",
