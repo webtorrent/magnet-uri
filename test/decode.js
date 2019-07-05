@@ -93,9 +93,9 @@ test('decode: complicated magnet uri (multiple xt params, and as, xs)', t => {
   t.equal(result.dn, 'mediawiki-1.15.1.tar.gz')
   const announce = 'udp://tracker.example4.com:80/announce'
   t.equal(result.tr, announce)
-  t.deepEqual(result.announce, [ announce ])
+  t.deepEqual(result.announce, [announce])
   t.equal(result.as, 'http://download.wikimedia.org/mediawiki/1.15/mediawiki-1.15.1.tar.gz')
-  t.deepEqual(result.urlList, [ 'http://download.wikimedia.org/mediawiki/1.15/mediawiki-1.15.1.tar.gz' ])
+  t.deepEqual(result.urlList, ['http://download.wikimedia.org/mediawiki/1.15/mediawiki-1.15.1.tar.gz'])
   t.deepEqual(result.xs, [
     'http://cache.example.org/XRX2PEFXOOEJFRVUCX6HMZMKS5TWG4K5',
     'dchub://example.org'

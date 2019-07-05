@@ -61,7 +61,7 @@ function magnetURIDecode (uri) {
   // Convenience properties for parity with `parse-torrent-file` module
   let m
   if (result.xt) {
-    const xts = Array.isArray(result.xt) ? result.xt : [ result.xt ]
+    const xts = Array.isArray(result.xt) ? result.xt : [result.xt]
     xts.forEach(xt => {
       if ((m = xt.match(/^urn:btih:(.{40})/))) {
         result.infoHash = m[1].toLowerCase()
@@ -76,7 +76,7 @@ function magnetURIDecode (uri) {
   if (result.dn) result.name = result.dn
   if (result.kt) result.keywords = result.kt
 
-  if (typeof result.tr === 'string') result.announce = [ result.tr ]
+  if (typeof result.tr === 'string') result.announce = [result.tr]
   else if (Array.isArray(result.tr)) result.announce = result.tr
   else result.announce = []
 
@@ -113,7 +113,7 @@ function magnetURIEncode (obj) {
   Object.keys(obj)
     .filter(key => key.length === 2)
     .forEach((key, i) => {
-      const values = Array.isArray(obj[key]) ? obj[key] : [ obj[key] ]
+      const values = Array.isArray(obj[key]) ? obj[key] : [obj[key]]
       values.forEach((val, j) => {
         if ((i > 0 || j > 0) && (key !== 'kt' || j === 0)) result += '&'
 

@@ -49,8 +49,8 @@ test('encode: simple magnet uri using convenience names', t => {
       'http://download.wikimedia.org/mediawiki/1.15/mediawiki-1.15.1.tar.gz'
     ],
     ws: 'http://download.wikimedia.org/mediawiki/1.15/mediawiki-1.15.1.tar.gz',
-    kt: [ 'hey', 'hey2' ],
-    keywords: [ 'hey', 'hey2' ]
+    kt: ['hey', 'hey2'],
+    keywords: ['hey', 'hey2']
   }
 
   const result = magnet.encode(obj)
