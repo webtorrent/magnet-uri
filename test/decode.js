@@ -17,8 +17,10 @@ test('decode: valid magnet uris', t => {
     'udp://tracker.example4.com:80',
     'udp://tracker.example5.com:80'
   ]
-  t.deepEqual(result.tr, announce)
-  t.deepEqual(result.announce, announce)
+
+  // sort so that order doesn't matter
+  t.deepEqual(result.tr.sort(), announce.sort())
+  t.deepEqual(result.announce.sort(), announce.sort())
 
   t.end()
 })
@@ -123,7 +125,8 @@ test('dedupe repeated trackers', t => {
     'udp://tracker.example4.com:80',
     'udp://tracker.example5.com:80'
   ]
-  t.deepEqual(result.announce, announce)
+  // sort so that order doesn't matter
+  t.deepEqual(result.announce.sort(), announce.sort())
   t.end()
 })
 
