@@ -46,12 +46,11 @@ function magnetURIDecode (uri) {
 
     // If there are repeated parameters, return an array of values
     if (result[key]) {
-      if (Array.isArray(result[key])) {
-        result[key].push(val)
-      } else {
-        const old = result[key]
-        result[key] = [old, val]
+      if (!Array.isArray(result[key])) {
+        result[key] = [result[key]]
       }
+
+      result[key].push(val)
     } else {
       result[key] = val
     }
