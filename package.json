@@ -11,8 +11,7 @@
     "url": "https://github.com/webtorrent/magnet-uri/issues"
   },
   "dependencies": {
-    "thirty-two": "^1.0.1",
-    "uniq": "^1.0.1"
+    "thirty-two": "^1.0.1"
   },
   "devDependencies": {
     "standard": "*",

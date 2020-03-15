@@ -3,7 +3,6 @@ module.exports.decode = magnetURIDecode
 module.exports.encode = magnetURIEncode
 
 const base32 = require('thirty-two')
-const uniq = require('uniq')
 
 /**
  * Parse a magnet URI and return an object of keys/values
@@ -88,8 +87,9 @@ function magnetURIDecode (uri) {
     result.urlList = result.urlList.concat(result.ws)
   }
 
-  uniq(result.announce)
-  uniq(result.urlList)
+  // remove duplicates by converting to Set and back
+  result.announce = Array.from(new Set(result.announce))
+  result.urlList = Array.from(new Set(result.urlList))
 
   return result
 }
