@@ -73,7 +73,6 @@ function magnetURIDecode (uri) {
   if (result.xs) {
     const xss = Array.isArray(result.xs) ? result.xs : [result.xs]
     xss.forEach(xs => {
-      console.log({xs})
       if ((m = xs.match(/^urn:btpk:(.{64})/))) {
         result.publicKey = m[1]
       }
