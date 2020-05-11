@@ -69,7 +69,19 @@ function magnetURIDecode (uri) {
       }
     })
   }
+
+  if (result.xs) {
+    const xss = Array.isArray(result.xs) ? result.xs : [result.xs]
+    xss.forEach(xs => {
+      console.log({xs})
+      if ((m = xs.match(/^urn:btpk:(.{64})/))) {
+        result.publicKey = m[1]
+      }
+    })
+  }
+
   if (result.infoHash) result.infoHashBuffer = Buffer.from(result.infoHash, 'hex')
+  if (result.publicKey) result.publicKeyBuffer = Buffer.from(result.publicKey, 'hex')
 
   if (result.dn) result.name = result.dn
   if (result.kt) result.keywords = result.kt
@@ -100,6 +112,8 @@ function magnetURIEncode (obj) {
   // (example: `infoHash` for `xt`, `name` for `dn`)
   if (obj.infoHashBuffer) obj.xt = `urn:btih:${obj.infoHashBuffer.toString('hex')}`
   if (obj.infoHash) obj.xt = `urn:btih:${obj.infoHash}`
+  if (obj.publicKeyBuffer) obj.xs = `urn:btpk:${obj.publicKeyBuffer.toString('hex')}`
+  if (obj.publicKey) obj.xs = `urn:btpk:${obj.publicKey}`
   if (obj.name) obj.dn = obj.name
   if (obj.keywords) obj.kt = obj.keywords
   if (obj.announce) obj.tr = obj.announce
@@ -117,7 +131,11 @@ function magnetURIEncode (obj) {
         if ((i > 0 || j > 0) && (key !== 'kt' || j === 0)) result += '&'
 
         if (key === 'dn') val = encodeURIComponent(val).replace(/%20/g, '+')
-        if (key === 'tr' || key === 'xs' || key === 'as' || key === 'ws') {
+        if (key === 'tr' || key === 'as' || key === 'ws') {
+          val = encodeURIComponent(val)
+        }
+        // Don't URI encode BEP46 keys
+        if (key === 'xs' && !val.startsWith('urn:btpk')) {
           val = encodeURIComponent(val)
         }
         if (key === 'kt') val = encodeURIComponent(val)

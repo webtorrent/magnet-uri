@@ -100,7 +100,7 @@ magnet:?xt=urn:ed2k:354B15E68FB8F36D7CD88FF94116CDC1&xt=urn:tree:tiger:7N5OAMRNG
 ```
 
 You can also use convenience key names like `name` (`dn`), `infoHash` (`xt`),
-`infoHashBuffer` (`xt`), `announce` (`tr`), and `keywords` (`kt`).
+`infoHashBuffer` (`xt`), `publicKey` (`xs`), `publicKeyBuffer` (`xs`), `announce` (`tr`), and `keywords` (`kt`).
 
 ## license
 
