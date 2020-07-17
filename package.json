@@ -11,11 +11,11 @@
     "url": "https://github.com/webtorrent/magnet-uri/issues"
   },
   "dependencies": {
-    "thirty-two": "^1.0.1"
+    "thirty-two": "^1.0.2"
   },
   "devDependencies": {
     "standard": "*",
-    "tape": "^5.0.0"
+    "tape": "^5.0.1"
   },
   "keywords": [
     "bittorrent",
