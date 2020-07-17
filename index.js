@@ -1,3 +1,4 @@
+/*! magnet-uri. MIT License. WebTorrent LLC <https://webtorrent.io/opensource> */
 module.exports = magnetURIDecode
 module.exports.decode = magnetURIDecode
 module.exports.encode = magnetURIEncode

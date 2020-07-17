@@ -3,7 +3,7 @@
   "description": "Parse a magnet URI and return an object of keys/values",
   "version": "5.3.0",
   "author": {
-    "name": "WebTorrent, LLC",
+    "name": "WebTorrent LLC",
     "email": "feross@webtorrent.io",
     "url": "https://webtorrent.io"
   },
@@ -35,5 +35,19 @@
   },
   "scripts": {
     "test": "standard && tape test/*.js"
-  }
+  },
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/feross"
+    },
+    {
+      "type": "patreon",
+      "url": "https://www.patreon.com/feross"
+    },
+    {
+      "type": "consulting",
+      "url": "https://feross.org/support"
+    }
+  ]
 }
