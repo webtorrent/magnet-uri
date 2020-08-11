@@ -35,7 +35,7 @@ function magnetURIDecode (uri) {
 
     // Address tracker (tr), exact source (xs), and acceptable source (as) are encoded
     // URIs, so decode them
-    if (key === 'tr' || key === 'xs' || key === 'as' || key === 'ws') {
+    if (key === 'tr' || key === 'xs' || key === 'as' || key === 'ws' || key === 'so') {
       val = decodeURIComponent(val)
     }
 
@@ -118,6 +118,7 @@ function magnetURIEncode (obj) {
         if ((i > 0 || j > 0) && (key !== 'kt' || j === 0)) result += '&'
 
         if (key === 'dn') val = encodeURIComponent(val).replace(/%20/g, '+')
+        if (key === 'so') val = encodeURIComponent(val).replace(/%2C/g, ',')
         if (key === 'tr' || key === 'xs' || key === 'as' || key === 'ws') {
           val = encodeURIComponent(val)
         }
