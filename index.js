@@ -4,6 +4,7 @@ module.exports.decode = magnetURIDecode
 module.exports.encode = magnetURIEncode
 
 const base32 = require('thirty-two')
+const bep53Range = require('bep53-range')
 
 /**
  * Parse a magnet URI and return an object of keys/values
@@ -44,6 +45,9 @@ function magnetURIDecode (uri) {
 
     // Cast file index (ix) to a number
     if (key === 'ix') val = Number(val)
+
+    // bep53
+    if (key === 'so') val = bep53Range.parse(decodeURIComponent(val).split(','))
 
     // If there are repeated parameters, return an array of values
     if (result[key]) {
@@ -115,17 +119,19 @@ function magnetURIEncode (obj) {
     .forEach((key, i) => {
       const values = Array.isArray(obj[key]) ? obj[key] : [obj[key]]
       values.forEach((val, j) => {
-        if ((i > 0 || j > 0) && (key !== 'kt' || j === 0)) result += '&'
+        if ((i > 0 || j > 0) && ((key !== 'kt' && key !== 'so') || j === 0)) result += '&'
 
         if (key === 'dn') val = encodeURIComponent(val).replace(/%20/g, '+')
         if (key === 'tr' || key === 'xs' || key === 'as' || key === 'ws') {
           val = encodeURIComponent(val)
         }
         if (key === 'kt') val = encodeURIComponent(val)
+        if (key === 'so') return
 
         if (key === 'kt' && j > 0) result += `+${val}`
         else result += `${key}=${val}`
       })
+      if (key === 'so') result += `${key}=${bep53Range.compose(values)}`
     })
 
   return result
