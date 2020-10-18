@@ -77,3 +77,22 @@ test('encode: using infoHashBuffer', t => {
   })
   t.end()
 })
+
+// Select specific file indices for download (BEP53) http://www.bittorrent.org/beps/bep_0053.html
+test('encode: select-only', t => {
+  const obj = {
+    xt: 'urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
+    so: [0, 2, 4, 6, 7, 8]
+  }
+  const result = magnet.encode(obj)
+  t.equal(result, 'magnet:?xt=urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36&so=0,2,4,6-8')
+  t.deepEqual(magnet.decode(result), {
+    xt: 'urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
+    infoHash: 'd2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
+    infoHashBuffer: Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36', 'hex'),
+    urlList: [],
+    announce: [],
+    so: [0, 2, 4, 6, 7, 8]
+  })
+  t.end()
+})
