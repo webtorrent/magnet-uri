@@ -96,3 +96,30 @@ test('encode: select-only', t => {
   })
   t.end()
 })
+
+// Peer address expressed as hostname:port (BEP09) http://bittorrent.org/beps/bep_0009.html
+test('encode: peer-address', t => {
+  const obj = {
+    xt: 'urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
+    x: {
+      pe: [
+        '123.213.32.10:47450',
+        '[2001:db8::2]:55013'
+      ]
+    }
+  }
+  const result = magnet.encode(obj)
+  t.equal(result, 'magnet:?xt=urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36&x.pe=123.213.32.10:47450&x.pe=[2001:db8::2]:55013')
+  t.deepEqual(magnet.decode(result), {
+    xt: 'urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
+    x: {
+      pe: ['123.213.32.10:47450', '[2001:db8::2]:55013']
+    },
+    infoHash: 'd2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
+    infoHashBuffer: Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36', 'hex'),
+    urlList: [],
+    announce: [],
+    peerAddress: ['123.213.32.10:47450', '[2001:db8::2]:55013']
+  })
+  t.end()
+})
