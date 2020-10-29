@@ -143,3 +143,28 @@ test('decode: select-only', t => {
   t.deepEqual(result.so, [0, 2, 4, 6, 7, 8])
   t.end()
 })
+
+// Peer address expressed as hostname:port (BEP09) http://bittorrent.org/beps/bep_0009.html
+test('decode: peer-address single value', t => {
+  const result = magnet('magnet:?xt=urn:btih:64DZYZWMUAVLIWJUXGDIK4QGAAIN7SL6&x.pe=123.213.32.10:47450')
+  const peerAddresses = ['123.213.32.10:47450']
+  t.deepEqual(result.x.pe, peerAddresses)
+  t.deepEqual(result.peerAddresses, peerAddresses)
+  t.end()
+})
+
+test('decode: peer-address multiple values', t => {
+  const result = magnet('magnet:?xt=urn:btih:64DZYZWMUAVLIWJUXGDIK4QGAAIN7SL6&x.pe=123.213.32.10:47450&x.pe=[2001:db8::2]:55013')
+  const peerAddresses = ['123.213.32.10:47450', '[2001:db8::2]:55013']
+  t.deepEqual(result.x.pe, peerAddresses)
+  t.deepEqual(result.peerAddresses, peerAddresses)
+  t.end()
+})
+
+test('decode: peer-address remove duplicates', t => {
+  const result = magnet('magnet:?xt=urn:btih:64DZYZWMUAVLIWJUXGDIK4QGAAIN7SL6&x.pe=123.213.32.10:47450&x.pe=[2001:db8::2]:55013&x.pe=123.213.32.10:47450')
+  const peerAddresses = ['123.213.32.10:47450', '[2001:db8::2]:55013']
+  t.deepEqual(result.x.pe, peerAddresses)
+  t.deepEqual(result.peerAddresses, peerAddresses)
+  t.end()
+})
