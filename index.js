@@ -65,7 +65,7 @@ function magnetURIDecode (uri) {
     // remove duplicates and convert to array
     result['x.pe'] = Array.isArray(result['x.pe'])
       ? Array.from(new Set(result['x.pe']))
-      : [].concat(result['x.pe'])
+      : [result['x.pe']]
   }
 
   // Convenience properties for parity with `parse-torrent-file` module
@@ -126,14 +126,14 @@ function magnetURIEncode (obj) {
     obj.ws = obj.urlList
     delete obj.as
   }
+  if (obj.peerAddresses) obj['x.pe'] = obj.peerAddresses
 
-  // translate x.pe into pe for processing
-  if (obj.x && obj.x.pe) obj.pe = obj.x.pe
-  if (obj.peerAddresses) obj.pe = obj.peerAddresses
+  // translate x.pe for processing
+  if (obj.x && obj.x.pe) obj['x.pe'] = obj.x.pe
 
   let result = 'magnet:?'
   Object.keys(obj)
-    .filter(key => key.length === 2)
+    .filter(key => key.length === 2 || key === 'x.pe')
     .forEach((key, i) => {
       const values = Array.isArray(obj[key]) ? obj[key] : [obj[key]]
       values.forEach((val, j) => {
@@ -145,9 +145,6 @@ function magnetURIEncode (obj) {
         }
         if (key === 'kt') val = encodeURIComponent(val)
         if (key === 'so') return
-
-        // translate back pe into x.pe
-        if (key === 'pe') key = 'x.pe'
 
         if (key === 'kt' && j > 0) result += `+${val}`
         else result += `${key}=${val}`
