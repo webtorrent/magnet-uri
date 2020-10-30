@@ -61,13 +61,6 @@ function magnetURIDecode (uri) {
     }
   })
 
-  if (result['x.pe']) {
-    // remove duplicates and convert to array
-    result['x.pe'] = Array.isArray(result['x.pe'])
-      ? Array.from(new Set(result['x.pe']))
-      : [result['x.pe']]
-  }
-
   // Convenience properties for parity with `parse-torrent-file` module
   let m
   if (result.xt) {
@@ -85,11 +78,11 @@ function magnetURIDecode (uri) {
 
   if (result.dn) result.name = result.dn
   if (result.kt) result.keywords = result.kt
-  if (result['x.pe']) result.peerAddresses = result['x.pe']
 
-  if (typeof result.tr === 'string') result.announce = [result.tr]
-  else if (Array.isArray(result.tr)) result.announce = result.tr
-  else result.announce = []
+  result.announce = []
+  if (typeof result.tr === 'string' || Array.isArray(result.tr)) {
+    result.announce = result.announce.concat(result.tr)
+  }
 
   result.urlList = []
   if (typeof result.as === 'string' || Array.isArray(result.as)) {
@@ -99,15 +92,15 @@ function magnetURIDecode (uri) {
     result.urlList = result.urlList.concat(result.ws)
   }
 
+  result.peerAddresses = []
+  if (typeof result['x.pe'] === 'string' || Array.isArray(result['x.pe'])) {
+    result.peerAddresses = result.peerAddresses.concat(result['x.pe'])
+  }
+
   // remove duplicates by converting to Set and back
   result.announce = Array.from(new Set(result.announce))
   result.urlList = Array.from(new Set(result.urlList))
-
-  // convert x.pe into two level object
-  if (result['x.pe']) {
-    result.x = { pe: result['x.pe'] }
-    delete result['x.pe']
-  }
+  result.peerAddresses = Array.from(new Set(result.peerAddresses))
 
   return result
 }
@@ -127,9 +120,6 @@ function magnetURIEncode (obj) {
     delete obj.as
   }
   if (obj.peerAddresses) obj['x.pe'] = obj.peerAddresses
-
-  // translate x.pe for processing
-  if (obj.x && obj.x.pe) obj['x.pe'] = obj.x.pe
 
   let result = 'magnet:?'
   Object.keys(obj)

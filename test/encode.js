@@ -48,6 +48,7 @@ test('encode: simple magnet uri using convenience names', t => {
     urlList: [
       'http://download.wikimedia.org/mediawiki/1.15/mediawiki-1.15.1.tar.gz'
     ],
+    peerAddresses: [],
     ws: 'http://download.wikimedia.org/mediawiki/1.15/mediawiki-1.15.1.tar.gz',
     kt: ['hey', 'hey2'],
     keywords: ['hey', 'hey2']
@@ -73,7 +74,8 @@ test('encode: using infoHashBuffer', t => {
     infoHash: 'd2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
     xt: 'urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
     urlList: [],
-    announce: []
+    announce: [],
+    peerAddresses: []
   })
   t.end()
 })
@@ -92,6 +94,7 @@ test('encode: select-only', t => {
     infoHashBuffer: Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36', 'hex'),
     urlList: [],
     announce: [],
+    peerAddresses: [],
     so: [0, 2, 4, 6, 7, 8]
   })
   t.end()
@@ -101,17 +104,13 @@ test('encode: select-only', t => {
 test('encode: peer-address single value', t => {
   const obj = {
     xt: 'urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
-    x: {
-      pe: '123.213.32.10:47450'
-    }
+    'x.pe': '123.213.32.10:47450'
   }
   const result = magnet.encode(obj)
   t.equal(result, 'magnet:?xt=urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36&x.pe=123.213.32.10:47450')
   t.deepEqual(magnet.decode(result), {
     xt: 'urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
-    x: {
-      pe: ['123.213.32.10:47450']
-    },
+    'x.pe': '123.213.32.10:47450',
     infoHash: 'd2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
     infoHashBuffer: Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36', 'hex'),
     urlList: [],
@@ -124,17 +123,13 @@ test('encode: peer-address single value', t => {
 test('encode: peer-address multiple values', t => {
   const obj = {
     xt: 'urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
-    x: {
-      pe: ['123.213.32.10:47450', '[2001:db8::2]:55013']
-    }
+    'x.pe': ['123.213.32.10:47450', '[2001:db8::2]:55013']
   }
   const result = magnet.encode(obj)
   t.equal(result, 'magnet:?xt=urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36&x.pe=123.213.32.10:47450&x.pe=[2001:db8::2]:55013')
   t.deepEqual(magnet.decode(result), {
     xt: 'urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
-    x: {
-      pe: ['123.213.32.10:47450', '[2001:db8::2]:55013']
-    },
+    'x.pe': ['123.213.32.10:47450', '[2001:db8::2]:55013'],
     infoHash: 'd2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
     infoHashBuffer: Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36', 'hex'),
     urlList: [],

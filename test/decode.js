@@ -3,7 +3,7 @@ const test = require('tape')
 
 const leavesOfGrass = 'magnet:?xt=urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36&dn=Leaves+of+Grass+by+Walt+Whitman.epub&tr=udp%3A%2F%2Ftracker.example4.com%3A80&tr=udp%3A%2F%2Ftracker.example5.com%3A80&tr=udp%3A%2F%2Ftracker.example3.com%3A6969&tr=udp%3A%2F%2Ftracker.example2.com%3A80&tr=udp%3A%2F%2Ftracker.example1.com%3A1337'
 
-const empty = { announce: [], urlList: [] }
+const empty = { announce: [], urlList: [], peerAddresses: [] }
 
 test('decode: valid magnet uris', t => {
   const result = magnet(leavesOfGrass)
@@ -148,7 +148,7 @@ test('decode: select-only', t => {
 test('decode: peer-address single value', t => {
   const result = magnet('magnet:?xt=urn:btih:64DZYZWMUAVLIWJUXGDIK4QGAAIN7SL6&x.pe=123.213.32.10:47450')
   const peerAddresses = ['123.213.32.10:47450']
-  t.deepEqual(result.x.pe, peerAddresses)
+  t.deepEqual(result['x.pe'], peerAddresses[0])
   t.deepEqual(result.peerAddresses, peerAddresses)
   t.end()
 })
@@ -156,15 +156,18 @@ test('decode: peer-address single value', t => {
 test('decode: peer-address multiple values', t => {
   const result = magnet('magnet:?xt=urn:btih:64DZYZWMUAVLIWJUXGDIK4QGAAIN7SL6&x.pe=123.213.32.10:47450&x.pe=[2001:db8::2]:55013')
   const peerAddresses = ['123.213.32.10:47450', '[2001:db8::2]:55013']
-  t.deepEqual(result.x.pe, peerAddresses)
+  t.deepEqual(result['x.pe'], peerAddresses)
   t.deepEqual(result.peerAddresses, peerAddresses)
   t.end()
 })
 
 test('decode: peer-address remove duplicates', t => {
   const result = magnet('magnet:?xt=urn:btih:64DZYZWMUAVLIWJUXGDIK4QGAAIN7SL6&x.pe=123.213.32.10:47450&x.pe=[2001:db8::2]:55013&x.pe=123.213.32.10:47450')
-  const peerAddresses = ['123.213.32.10:47450', '[2001:db8::2]:55013']
-  t.deepEqual(result.x.pe, peerAddresses)
-  t.deepEqual(result.peerAddresses, peerAddresses)
+
+  // raw value is *not* deduped
+  t.deepEqual(result['x.pe'], ['123.213.32.10:47450', '[2001:db8::2]:55013', '123.213.32.10:47450'])
+
+  // friendly value is deduped
+  t.deepEqual(result.peerAddresses, ['123.213.32.10:47450', '[2001:db8::2]:55013'])
   t.end()
 })
