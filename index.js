@@ -74,7 +74,7 @@ function magnetURIDecode (uri) {
     const xss = Array.isArray(result.xs) ? result.xs : [result.xs]
     xss.forEach(xs => {
       if ((m = xs.match(/^urn:btpk:(.{64})/))) {
-        result.publicKey = m[1]
+        result.publicKey = m[1].toLowerCase()
       }
     })
   }
@@ -134,7 +134,7 @@ function magnetURIEncode (obj) {
           val = encodeURIComponent(val)
         }
         // Don't URI encode BEP46 keys
-        if (key === 'xs' && !val.startsWith('urn:btpk')) {
+        if (key === 'xs' && !val.startsWith('urn:btpk:')) {
           val = encodeURIComponent(val)
         }
         if (key === 'kt') val = encodeURIComponent(val)
