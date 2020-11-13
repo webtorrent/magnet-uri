@@ -1,9 +1,9 @@
 {
   "name": "magnet-uri",
   "description": "Parse a magnet URI and return an object of keys/values",
-  "version": "5.2.4",
+  "version": "6.0.0",
   "author": {
-    "name": "WebTorrent, LLC",
+    "name": "WebTorrent LLC",
     "email": "feross@webtorrent.io",
     "url": "https://webtorrent.io"
   },
@@ -11,11 +11,12 @@
     "url": "https://github.com/webtorrent/magnet-uri/issues"
   },
   "dependencies": {
-    "thirty-two": "^1.0.1"
+    "thirty-two": "^1.0.2",
+    "bep53-range": "^1.0.0"
   },
   "devDependencies": {
     "standard": "*",
-    "tape": "^4.0.0"
+    "tape": "^5.0.1"
   },
   "keywords": [
     "bittorrent",
@@ -35,5 +36,19 @@
   },
   "scripts": {
     "test": "standard && tape test/*.js"
-  }
+  },
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/feross"
+    },
+    {
+      "type": "patreon",
+      "url": "https://www.patreon.com/feross"
+    },
+    {
+      "type": "consulting",
+      "url": "https://feross.org/support"
+    }
+  ]
 }

@@ -1,8 +1,10 @@
+/*! magnet-uri. MIT License. WebTorrent LLC <https://webtorrent.io/opensource> */
 module.exports = magnetURIDecode
 module.exports.decode = magnetURIDecode
 module.exports.encode = magnetURIEncode
 
 const base32 = require('thirty-two')
+const bep53Range = require('bep53-range')
 
 /**
  * Parse a magnet URI and return an object of keys/values
@@ -43,6 +45,9 @@ function magnetURIDecode (uri) {
 
     // Cast file index (ix) to a number
     if (key === 'ix') val = Number(val)
+
+    // bep53
+    if (key === 'so') val = bep53Range.parse(decodeURIComponent(val).split(','))
 
     // If there are repeated parameters, return an array of values
     if (result[key]) {
@@ -85,9 +90,10 @@ function magnetURIDecode (uri) {
   if (result.dn) result.name = result.dn
   if (result.kt) result.keywords = result.kt
 
-  if (typeof result.tr === 'string') result.announce = [result.tr]
-  else if (Array.isArray(result.tr)) result.announce = result.tr
-  else result.announce = []
+  result.announce = []
+  if (typeof result.tr === 'string' || Array.isArray(result.tr)) {
+    result.announce = result.announce.concat(result.tr)
+  }
 
   result.urlList = []
   if (typeof result.as === 'string' || Array.isArray(result.as)) {
@@ -97,9 +103,15 @@ function magnetURIDecode (uri) {
     result.urlList = result.urlList.concat(result.ws)
   }
 
+  result.peerAddresses = []
+  if (typeof result['x.pe'] === 'string' || Array.isArray(result['x.pe'])) {
+    result.peerAddresses = result.peerAddresses.concat(result['x.pe'])
+  }
+
   // remove duplicates by converting to Set and back
   result.announce = Array.from(new Set(result.announce))
   result.urlList = Array.from(new Set(result.urlList))
+  result.peerAddresses = Array.from(new Set(result.peerAddresses))
 
   return result
 }
@@ -120,14 +132,15 @@ function magnetURIEncode (obj) {
     obj.ws = obj.urlList
     delete obj.as
   }
+  if (obj.peerAddresses) obj['x.pe'] = obj.peerAddresses
 
   let result = 'magnet:?'
   Object.keys(obj)
-    .filter(key => key.length === 2)
+    .filter(key => key.length === 2 || key === 'x.pe')
     .forEach((key, i) => {
       const values = Array.isArray(obj[key]) ? obj[key] : [obj[key]]
       values.forEach((val, j) => {
-        if ((i > 0 || j > 0) && (key !== 'kt' || j === 0)) result += '&'
+        if ((i > 0 || j > 0) && ((key !== 'kt' && key !== 'so') || j === 0)) result += '&'
 
         if (key === 'dn') val = encodeURIComponent(val).replace(/%20/g, '+')
         if (key === 'tr' || key === 'as' || key === 'ws') {
@@ -138,10 +151,12 @@ function magnetURIEncode (obj) {
           val = encodeURIComponent(val)
         }
         if (key === 'kt') val = encodeURIComponent(val)
+        if (key === 'so') return
 
         if (key === 'kt' && j > 0) result += `+${val}`
         else result += `${key}=${val}`
       })
+      if (key === 'so') result += `${key}=${bep53Range.compose(values)}`
     })
 
   return result
