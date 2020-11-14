@@ -26,11 +26,16 @@ test('encode: complicated magnet uri (multiple xt params, and as, xs)', t => {
 
 test('encode: simple magnet uri using convenience names', t => {
   const obj = {
-    xt: 'urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
+    xt: [
+      'urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
+      'urn:btmh:1220d2474e86c95b19b8bcfdb92bc12c9d44667cfa36d2474e86c95b19b8bcfdb92b'
+    ],
     dn: 'Leaves of Grass by Walt Whitman.epub',
     name: 'Leaves of Grass by Walt Whitman.epub',
     infoHash: 'd2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
     infoHashBuffer: Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36', 'hex'),
+    infoHashV2: 'd2474e86c95b19b8bcfdb92bc12c9d44667cfa36d2474e86c95b19b8bcfdb92b',
+    infoHashV2Buffer: Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36d2474e86c95b19b8bcfdb92b', 'hex'),
     tr: [
       'udp://tracker.example1.com:1337',
       'udp://tracker.example2.com:80',
@@ -56,7 +61,7 @@ test('encode: simple magnet uri using convenience names', t => {
 
   const result = magnet.encode(obj)
 
-  t.equal(result, 'magnet:?xt=urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36&dn=Leaves+of+Grass+by+Walt+Whitman.epub&tr=udp%3A%2F%2Ftracker.example1.com%3A1337&tr=udp%3A%2F%2Ftracker.example2.com%3A80&tr=udp%3A%2F%2Ftracker.example3.com%3A6969&tr=udp%3A%2F%2Ftracker.example4.com%3A80&tr=udp%3A%2F%2Ftracker.example5.com%3A80&ws=http%3A%2F%2Fdownload.wikimedia.org%2Fmediawiki%2F1.15%2Fmediawiki-1.15.1.tar.gz&kt=hey+hey2')
+  t.equal(result, 'magnet:?xt=urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36&xt=urn:btmh:1220d2474e86c95b19b8bcfdb92bc12c9d44667cfa36d2474e86c95b19b8bcfdb92b&dn=Leaves+of+Grass+by+Walt+Whitman.epub&tr=udp%3A%2F%2Ftracker.example1.com%3A1337&tr=udp%3A%2F%2Ftracker.example2.com%3A80&tr=udp%3A%2F%2Ftracker.example3.com%3A6969&tr=udp%3A%2F%2Ftracker.example4.com%3A80&tr=udp%3A%2F%2Ftracker.example5.com%3A80&ws=http%3A%2F%2Fdownload.wikimedia.org%2Fmediawiki%2F1.15%2Fmediawiki-1.15.1.tar.gz&kt=hey+hey2')
 
   t.deepEqual(magnet.decode(result), obj)
 
@@ -73,6 +78,23 @@ test('encode: using infoHashBuffer', t => {
     infoHashBuffer: Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36', 'hex'),
     infoHash: 'd2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
     xt: 'urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
+    urlList: [],
+    announce: [],
+    peerAddresses: []
+  })
+  t.end()
+})
+
+test('encode: using infoHashV2Buffer', t => {
+  const obj = {
+    infoHashV2Buffer: Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36d2474e86c95b19b8bcfdb92b', 'hex')
+  }
+  const result = magnet.encode(obj)
+  t.equal(result, 'magnet:?xt=urn:btmh:1220d2474e86c95b19b8bcfdb92bc12c9d44667cfa36d2474e86c95b19b8bcfdb92b')
+  t.deepEqual(magnet.decode(result), {
+    infoHashV2: 'd2474e86c95b19b8bcfdb92bc12c9d44667cfa36d2474e86c95b19b8bcfdb92b',
+    infoHashV2Buffer: Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36d2474e86c95b19b8bcfdb92b', 'hex'),
+    xt: 'urn:btmh:1220d2474e86c95b19b8bcfdb92bc12c9d44667cfa36d2474e86c95b19b8bcfdb92b',
     urlList: [],
     announce: [],
     peerAddresses: []
