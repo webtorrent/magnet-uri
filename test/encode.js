@@ -138,3 +138,23 @@ test('encode: peer-address multiple values', t => {
   })
   t.end()
 })
+
+test('encode: using publicKey', t => {
+  const publicKey = '9a36edf0988ddc1a0fc02d4e8652cce87a71aaac71fce936e650a597c0fb72e0'
+  const obj = {
+    publicKey
+  }
+  const result = magnet.encode(obj)
+  t.equal(result, 'magnet:?xs=urn:btpk:9a36edf0988ddc1a0fc02d4e8652cce87a71aaac71fce936e650a597c0fb72e0')
+  t.end()
+})
+
+test('encode: using publicKeyBuffer', t => {
+  const publicKeyBuffer = Buffer.from('9a36edf0988ddc1a0fc02d4e8652cce87a71aaac71fce936e650a597c0fb72e0', 'hex')
+  const obj = {
+    publicKeyBuffer
+  }
+  const result = magnet.encode(obj)
+  t.equal(result, 'magnet:?xs=urn:btpk:9a36edf0988ddc1a0fc02d4e8652cce87a71aaac71fce936e650a597c0fb72e0')
+  t.end()
+})

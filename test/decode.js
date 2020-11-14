@@ -137,6 +137,14 @@ test('Cast file index (ix) to a number', t => {
   t.end()
 })
 
+test('decode: Extracts public key from xs', t => {
+  const key = '9a36edf0988ddc1a0fc02d4e8652cce87a71aaac71fce936e650a597c0fb72e0'
+  const result = magnet(`magnet:?xs=urn:btpk:${key}`)
+  t.equal(result.publicKey, key)
+  t.deepEqual(result.publicKeyBuffer, Buffer.from(key, 'hex'))
+  t.end()
+})
+
 // Select specific file indices for download (BEP53) http://www.bittorrent.org/beps/bep_0053.html
 test('decode: select-only', t => {
   const result = magnet('magnet:?xt=urn:btih:64DZYZWMUAVLIWJUXGDIK4QGAAIN7SL6&so=0,2,4,6-8')
