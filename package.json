@@ -11,13 +11,27 @@
     "url": "https://github.com/webtorrent/magnet-uri/issues"
   },
   "dependencies": {
-    "thirty-two": "^1.0.2",
-    "bep53-range": "^1.0.0"
+    "bep53-range": "^1.0.0",
+    "thirty-two": "^1.0.2"
   },
   "devDependencies": {
     "standard": "*",
     "tape": "^5.0.1"
   },
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/feross"
+    },
+    {
+      "type": "patreon",
+      "url": "https://www.patreon.com/feross"
+    },
+    {
+      "type": "consulting",
+      "url": "https://feross.org/support"
+    }
+  ],
   "keywords": [
     "bittorrent",
     "cryptolinks",
@@ -36,19 +50,5 @@
   },
   "scripts": {
     "test": "standard && tape test/*.js"
-  },
-  "funding": [
-    {
-      "type": "github",
-      "url": "https://github.com/sponsors/feross"
-    },
-    {
-      "type": "patreon",
-      "url": "https://www.patreon.com/feross"
-    },
-    {
-      "type": "consulting",
-      "url": "https://feross.org/support"
-    }
-  ]
+  }
 }
