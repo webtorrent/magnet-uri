@@ -128,7 +128,7 @@ function magnetURIEncode (obj) {
   // Deduplicate xt by using a set
   let xts = new Set()
   if (obj.xt && typeof obj.xt === 'string') xts.add(obj.xt)
-  if (obj.xt && typeof obj.xt === 'object') xts = new Set(obj.xt)
+  if (obj.xt && Array.isArray(obj.xt)) xts = new Set(obj.xt)
   if (obj.infoHashBuffer) xts.add(`urn:btih:${obj.infoHashBuffer.toString('hex')}`)
   if (obj.infoHash) xts.add(`urn:btih:${obj.infoHash}`)
   if (obj.infoHashV2Buffer) xts.add(obj.xt = `urn:btmh:1220${obj.infoHashV2Buffer.toString('hex')}`)
