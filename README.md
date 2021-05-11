@@ -1,7 +1,7 @@
-# magnet-uri [![travis][travis-image]][travis-url] [![npm][npm-image]][npm-url] [![downloads][downloads-image]][downloads-url] [![javascript style guide][standard-image]][standard-url]
+# magnet-uri [![ci][ci-image]][ci-url] [![npm][npm-image]][npm-url] [![downloads][downloads-image]][downloads-url] [![javascript style guide][standard-image]][standard-url]
 
-[travis-image]: https://img.shields.io/travis/webtorrent/magnet-uri/master.svg
-[travis-url]: https://travis-ci.org/webtorrent/magnet-uri
+[ci-image]: https://img.shields.io/github/workflow/status/webtorrent/magnet-uri/ci/master
+[ci-url]: https://github.com/webtorrent/magnet-uri/actions
 [npm-image]: https://img.shields.io/npm/v/magnet-uri.svg
 [npm-url]: https://npmjs.org/package/magnet-uri
 [downloads-image]: https://img.shields.io/npm/dm/magnet-uri.svg
