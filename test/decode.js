@@ -1,15 +1,21 @@
 const magnet = require('../')
 const test = require('tape')
 
-const leavesOfGrass = 'magnet:?xt=urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36&dn=Leaves+of+Grass+by+Walt+Whitman.epub&tr=udp%3A%2F%2Ftracker.example4.com%3A80&tr=udp%3A%2F%2Ftracker.example5.com%3A80&tr=udp%3A%2F%2Ftracker.example3.com%3A6969&tr=udp%3A%2F%2Ftracker.example2.com%3A80&tr=udp%3A%2F%2Ftracker.example1.com%3A1337'
+const leavesOfGrass = 'magnet:?xt=urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36&xt=urn:btmh:1220d2474e86c95b19b8bcfdb92bc12c9d44667cfa36d2474e86c95b19b8bcfdb92b&dn=Leaves+of+Grass+by+Walt+Whitman.epub&tr=udp%3A%2F%2Ftracker.example4.com%3A80&tr=udp%3A%2F%2Ftracker.example5.com%3A80&tr=udp%3A%2F%2Ftracker.example3.com%3A6969&tr=udp%3A%2F%2Ftracker.example2.com%3A80&tr=udp%3A%2F%2Ftracker.example1.com%3A1337'
 
 const empty = { announce: [], urlList: [], peerAddresses: [] }
 
 test('decode: valid magnet uris', t => {
   const result = magnet(leavesOfGrass)
-  t.equal(result.xt, 'urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36')
   t.equal(result.dn, 'Leaves of Grass by Walt Whitman.epub')
   t.equal(result.infoHash, 'd2474e86c95b19b8bcfdb92bc12c9d44667cfa36')
+  t.equal(result.infoHashV2, 'd2474e86c95b19b8bcfdb92bc12c9d44667cfa36d2474e86c95b19b8bcfdb92b')
+
+  const xt = [
+    'urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
+    'urn:btmh:1220d2474e86c95b19b8bcfdb92bc12c9d44667cfa36d2474e86c95b19b8bcfdb92b'
+  ]
+
   const announce = [
     'udp://tracker.example1.com:1337',
     'udp://tracker.example2.com:80',
@@ -19,6 +25,7 @@ test('decode: valid magnet uris', t => {
   ]
 
   // sort so that order doesn't matter
+  t.deepEqual(result.xt.sort(), xt.sort())
   t.deepEqual(result.tr.sort(), announce.sort())
   t.deepEqual(result.announce.sort(), announce.sort())
 
@@ -47,10 +54,12 @@ test('decode: invalid magnet URIs return empty object', t => {
   const invalid1 = 'magnet:?xt=urn:btih:==='
   const invalid2 = 'magnet:?xt'
   const invalid3 = 'magnet:?xt=?dn='
+  const invalid4 = 'magnet:?xt=urn:btmh:==='
 
   t.deepEqual(magnet(invalid1), empty)
   t.deepEqual(magnet(invalid2), empty)
   t.deepEqual(magnet(invalid3), empty)
+  t.deepEqual(magnet(invalid4), empty)
   t.end()
 })
 
@@ -74,6 +83,13 @@ test('decode: extracts 40-char hex BitTorrent info_hash', t => {
 test('decode: extracts 32-char base32 BitTorrent info_hash', t => {
   const result = magnet('magnet:?xt=urn:btih:64DZYZWMUAVLIWJUXGDIK4QGAAIN7SL6')
   t.equal(result.infoHash, 'f7079c66cca02ab45934b9868572060010dfc97e')
+  t.end()
+})
+
+test('decode: extracts 64-char hex BitTorrent V2 info_hash', t => {
+  const result = magnet('magnet:?xt=urn:btmh:122080e00d84343afd2b6392e966c1267807461946ba9db1d5af4bb50779dcf1ab4e')
+  t.equal(result.infoHash, undefined)
+  t.equal(result.infoHashV2, '80e00d84343afd2b6392e966c1267807461946ba9db1d5af4bb50779dcf1ab4e')
   t.end()
 })
 
