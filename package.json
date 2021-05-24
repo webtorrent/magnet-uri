@@ -50,5 +50,13 @@
   },
   "scripts": {
     "test": "standard && tape test/*.js"
+  },
+  "renovate": {
+    "extends": [
+      "github>webtorrent/renovate-config"
+    ],
+    "lockFileMaintenance": {
+      "enabled": false
+    }
   }
 }
