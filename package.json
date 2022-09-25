@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "standard": "*",
-    "tape": "5.5.3"
+    "tape": "5.6.1"
   },
   "funding": [
     {
