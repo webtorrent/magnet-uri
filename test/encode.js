@@ -1,8 +1,8 @@
-const magnet = require('../')
-const test = require('tape')
+import { encode, decode } from '../index.js'
+import test from 'tape'
 
 test('encode: complicated magnet uri (multiple xt params, and as, xs)', t => {
-  const uri = magnet.encode({
+  const uri = encode({
     xt: [
       'urn:ed2k:354B15E68FB8F36D7CD88FF94116CDC1',
       'urn:tree:tiger:7N5OAMRNGMSSEUE3ORHOKWN4WWIQ5X4EBOOTLJY',
@@ -59,11 +59,11 @@ test('encode: simple magnet uri using convenience names', t => {
     keywords: ['hey', 'hey2']
   }
 
-  const result = magnet.encode(obj)
+  const result = encode(obj)
 
   t.equal(result, 'magnet:?xt=urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36&xt=urn:btmh:1220d2474e86c95b19b8bcfdb92bc12c9d44667cfa36d2474e86c95b19b8bcfdb92b&dn=Leaves+of+Grass+by+Walt+Whitman.epub&tr=udp%3A%2F%2Ftracker.example1.com%3A1337&tr=udp%3A%2F%2Ftracker.example2.com%3A80&tr=udp%3A%2F%2Ftracker.example3.com%3A6969&tr=udp%3A%2F%2Ftracker.example4.com%3A80&tr=udp%3A%2F%2Ftracker.example5.com%3A80&ws=http%3A%2F%2Fdownload.wikimedia.org%2Fmediawiki%2F1.15%2Fmediawiki-1.15.1.tar.gz&kt=hey+hey2')
 
-  t.deepEqual(magnet.decode(result), obj)
+  t.deepEqual(decode(result), obj)
 
   t.end()
 })
@@ -72,9 +72,9 @@ test('encode: using infoHashBuffer', t => {
   const obj = {
     infoHashBuffer: Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36', 'hex')
   }
-  const result = magnet.encode(obj)
+  const result = encode(obj)
   t.equal(result, 'magnet:?xt=urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36')
-  t.deepEqual(magnet.decode(result), {
+  t.deepEqual(decode(result), {
     infoHashBuffer: Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36', 'hex'),
     infoHash: 'd2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
     xt: 'urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
@@ -89,9 +89,9 @@ test('encode: using infoHashV2Buffer', t => {
   const obj = {
     infoHashV2Buffer: Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36d2474e86c95b19b8bcfdb92b', 'hex')
   }
-  const result = magnet.encode(obj)
+  const result = encode(obj)
   t.equal(result, 'magnet:?xt=urn:btmh:1220d2474e86c95b19b8bcfdb92bc12c9d44667cfa36d2474e86c95b19b8bcfdb92b')
-  t.deepEqual(magnet.decode(result), {
+  t.deepEqual(decode(result), {
     infoHashV2: 'd2474e86c95b19b8bcfdb92bc12c9d44667cfa36d2474e86c95b19b8bcfdb92b',
     infoHashV2Buffer: Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36d2474e86c95b19b8bcfdb92b', 'hex'),
     xt: 'urn:btmh:1220d2474e86c95b19b8bcfdb92bc12c9d44667cfa36d2474e86c95b19b8bcfdb92b',
@@ -108,9 +108,9 @@ test('encode: select-only', t => {
     xt: 'urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
     so: [0, 2, 4, 6, 7, 8]
   }
-  const result = magnet.encode(obj)
+  const result = encode(obj)
   t.equal(result, 'magnet:?xt=urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36&so=0,2,4,6-8')
-  t.deepEqual(magnet.decode(result), {
+  t.deepEqual(decode(result), {
     xt: 'urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
     infoHash: 'd2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
     infoHashBuffer: Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36', 'hex'),
@@ -128,9 +128,9 @@ test('encode: peer-address single value', t => {
     xt: 'urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
     'x.pe': '123.213.32.10:47450'
   }
-  const result = magnet.encode(obj)
+  const result = encode(obj)
   t.equal(result, 'magnet:?xt=urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36&x.pe=123.213.32.10:47450')
-  t.deepEqual(magnet.decode(result), {
+  t.deepEqual(decode(result), {
     xt: 'urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
     'x.pe': '123.213.32.10:47450',
     infoHash: 'd2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
@@ -147,9 +147,9 @@ test('encode: peer-address multiple values', t => {
     xt: 'urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
     'x.pe': ['123.213.32.10:47450', '[2001:db8::2]:55013']
   }
-  const result = magnet.encode(obj)
+  const result = encode(obj)
   t.equal(result, 'magnet:?xt=urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36&x.pe=123.213.32.10:47450&x.pe=[2001:db8::2]:55013')
-  t.deepEqual(magnet.decode(result), {
+  t.deepEqual(decode(result), {
     xt: 'urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
     'x.pe': ['123.213.32.10:47450', '[2001:db8::2]:55013'],
     infoHash: 'd2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
@@ -166,7 +166,7 @@ test('encode: using publicKey', t => {
   const obj = {
     publicKey
   }
-  const result = magnet.encode(obj)
+  const result = encode(obj)
   t.equal(result, 'magnet:?xs=urn:btpk:9a36edf0988ddc1a0fc02d4e8652cce87a71aaac71fce936e650a597c0fb72e0')
   t.end()
 })
@@ -176,7 +176,7 @@ test('encode: using publicKeyBuffer', t => {
   const obj = {
     publicKeyBuffer
   }
-  const result = magnet.encode(obj)
+  const result = encode(obj)
   t.equal(result, 'magnet:?xs=urn:btpk:9a36edf0988ddc1a0fc02d4e8652cce87a71aaac71fce936e650a597c0fb72e0')
   t.end()
 })

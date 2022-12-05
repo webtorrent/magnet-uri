@@ -10,6 +10,7 @@
   "bugs": {
     "url": "https://github.com/webtorrent/magnet-uri/issues"
   },
+  "type": "module",
   "dependencies": {
     "bep53-range": "^1.1.1",
     "thirty-two": "^1.0.2"
@@ -43,7 +44,12 @@
     "webtorrent"
   ],
   "license": "MIT",
-  "main": "index.js",
+  "engines": {
+    "node": ">=12.20.0"
+  },
+  "exports": {
+    "import": "./index.js"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/webtorrent/magnet-uri.git"
