@@ -1,10 +1,6 @@
 /*! magnet-uri. MIT License. WebTorrent LLC <https://webtorrent.io/opensource> */
-module.exports = magnetURIDecode
-module.exports.decode = magnetURIDecode
-module.exports.encode = magnetURIEncode
-
-const base32 = require('thirty-two')
-const bep53Range = require('bep53-range')
+import base32 from 'thirty-two'
+import bep53Range from 'bep53-range'
 
 /**
  * Parse a magnet URI and return an object of keys/values
@@ -175,3 +171,6 @@ function magnetURIEncode (obj) {
 
   return result
 }
+
+export default magnetURIDecode
+export { magnetURIDecode as decode, magnetURIEncode as encode }

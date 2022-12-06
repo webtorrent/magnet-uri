@@ -26,7 +26,7 @@ npm install magnet-uri
 Parse a magnet URI and return an object of keys/values.
 
 ```js
-const magnet = require('magnet-uri')
+import magnet from 'magnet-uri'
 
 // "Leaves of Grass" by Walt Whitman
 const uri = 'magnet:?xt=urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36&dn=Leaves+of+Grass+by+Walt+Whitman.epub&tr=udp%3A%2F%2Ftracker.example4.com%3A80&tr=udp%3A%2F%2Ftracker.example5.com%3A80&tr=udp%3A%2F%2Ftracker.example3.com%3A6969&tr=udp%3A%2F%2Ftracker.example2.com%3A80&tr=udp%3A%2F%2Ftracker.example1.com%3A1337'
@@ -70,7 +70,7 @@ The `parsed` magnet link object looks like this:
 Convert an object of key/values into a magnet URI string.
 
 ```js
-const magnet = require('magnet-uri')
+import magnet from 'magnet-uri'
 
 const uri = magnet.encode({
   xt: [
