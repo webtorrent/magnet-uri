@@ -1,6 +1,7 @@
 /*! magnet-uri. MIT License. WebTorrent LLC <https://webtorrent.io/opensource> */
 import base32 from 'thirty-two'
 import { parse, compose } from 'bep53-range'
+import { hex2arr, arr2hex, bin2hex } from 'uint8-util'
 
 /**
  * Parse a magnet URI and return an object of keys/values
@@ -66,7 +67,7 @@ function magnetURIDecode (uri) {
         result.infoHash = m[1].toLowerCase()
       } else if ((m = xt.match(/^urn:btih:(.{32})/))) {
         const decodedStr = base32.decode(m[1])
-        result.infoHash = Buffer.from(decodedStr, 'binary').toString('hex')
+        result.infoHash = bin2hex(decodedStr)
       } else if ((m = xt.match(/^urn:btmh:1220(.{64})/))) {
         result.infoHashV2 = m[1].toLowerCase()
       }
@@ -82,9 +83,9 @@ function magnetURIDecode (uri) {
     })
   }
 
-  if (result.infoHash) result.infoHashBuffer = Buffer.from(result.infoHash, 'hex')
-  if (result.infoHashV2) result.infoHashV2Buffer = Buffer.from(result.infoHashV2, 'hex')
-  if (result.publicKey) result.publicKeyBuffer = Buffer.from(result.publicKey, 'hex')
+  if (result.infoHash) result.infoHashBuffer = hex2arr(result.infoHash)
+  if (result.infoHashV2) result.infoHashV2Buffer = hex2arr(result.infoHashV2)
+  if (result.publicKey) result.publicKeyBuffer = hex2arr(result.publicKey)
 
   if (result.dn) result.name = result.dn
   if (result.kt) result.keywords = result.kt
@@ -125,15 +126,15 @@ function magnetURIEncode (obj) {
   let xts = new Set()
   if (obj.xt && typeof obj.xt === 'string') xts.add(obj.xt)
   if (obj.xt && Array.isArray(obj.xt)) xts = new Set(obj.xt)
-  if (obj.infoHashBuffer) xts.add(`urn:btih:${obj.infoHashBuffer.toString('hex')}`)
+  if (obj.infoHashBuffer) xts.add(`urn:btih:${arr2hex(obj.infoHashBuffer)}`)
   if (obj.infoHash) xts.add(`urn:btih:${obj.infoHash}`)
-  if (obj.infoHashV2Buffer) xts.add(obj.xt = `urn:btmh:1220${obj.infoHashV2Buffer.toString('hex')}`)
+  if (obj.infoHashV2Buffer) xts.add(obj.xt = `urn:btmh:1220${arr2hex(obj.infoHashV2Buffer)}`)
   if (obj.infoHashV2) xts.add(`urn:btmh:1220${obj.infoHashV2}`)
   const xtsDeduped = Array.from(xts)
   if (xtsDeduped.length === 1) obj.xt = xtsDeduped[0]
   if (xtsDeduped.length > 1) obj.xt = xtsDeduped
 
-  if (obj.publicKeyBuffer) obj.xs = `urn:btpk:${obj.publicKeyBuffer.toString('hex')}`
+  if (obj.publicKeyBuffer) obj.xs = `urn:btpk:${arr2hex(obj.publicKeyBuffer)}`
   if (obj.publicKey) obj.xs = `urn:btpk:${obj.publicKey}`
   if (obj.name) obj.dn = obj.name
   if (obj.keywords) obj.kt = obj.keywords
