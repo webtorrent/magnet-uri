@@ -1,6 +1,6 @@
 /*! magnet-uri. MIT License. WebTorrent LLC <https://webtorrent.io/opensource> */
 import base32 from 'thirty-two'
-import bep53Range from 'bep53-range'
+import { parse, compose } from 'bep53-range'
 
 /**
  * Parse a magnet URI and return an object of keys/values
@@ -43,7 +43,7 @@ function magnetURIDecode (uri) {
     if (key === 'ix') val = Number(val)
 
     // bep53
-    if (key === 'so') val = bep53Range.parse(decodeURIComponent(val).split(','))
+    if (key === 'so') val = parse(decodeURIComponent(val).split(','))
 
     // If there are repeated parameters, return an array of values
     if (result[key]) {
@@ -166,7 +166,7 @@ function magnetURIEncode (obj) {
         if (key === 'kt' && j > 0) result += `+${val}`
         else result += `${key}=${val}`
       })
-      if (key === 'so') result += `${key}=${bep53Range.compose(values)}`
+      if (key === 'so') result += `${key}=${compose(values)}`
     })
 
   return result

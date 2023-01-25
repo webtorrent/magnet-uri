@@ -12,7 +12,7 @@
   },
   "type": "module",
   "dependencies": {
-    "bep53-range": "^1.1.1",
+    "bep53-range": "^2.0.0",
     "thirty-two": "^1.0.2"
   },
   "devDependencies": {
