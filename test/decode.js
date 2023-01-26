@@ -157,7 +157,7 @@ test('decode: Extracts public key from xs', t => {
   const key = '9a36edf0988ddc1a0fc02d4e8652cce87a71aaac71fce936e650a597c0fb72e0'
   const result = magnet(`magnet:?xs=urn:btpk:${key}`)
   t.equal(result.publicKey, key)
-  t.deepEqual(result.publicKeyBuffer, Buffer.from(key, 'hex'))
+  t.deepEqual(result.publicKeyBuffer, new Uint8Array(Buffer.from(key, 'hex')))
   t.end()
 })
 

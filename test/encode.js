@@ -33,9 +33,9 @@ test('encode: simple magnet uri using convenience names', t => {
     dn: 'Leaves of Grass by Walt Whitman.epub',
     name: 'Leaves of Grass by Walt Whitman.epub',
     infoHash: 'd2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
-    infoHashBuffer: Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36', 'hex'),
+    infoHashBuffer: new Uint8Array(Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36', 'hex')),
     infoHashV2: 'd2474e86c95b19b8bcfdb92bc12c9d44667cfa36d2474e86c95b19b8bcfdb92b',
-    infoHashV2Buffer: Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36d2474e86c95b19b8bcfdb92b', 'hex'),
+    infoHashV2Buffer: new Uint8Array(Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36d2474e86c95b19b8bcfdb92b', 'hex')),
     tr: [
       'udp://tracker.example1.com:1337',
       'udp://tracker.example2.com:80',
@@ -70,12 +70,12 @@ test('encode: simple magnet uri using convenience names', t => {
 
 test('encode: using infoHashBuffer', t => {
   const obj = {
-    infoHashBuffer: Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36', 'hex')
+    infoHashBuffer: new Uint8Array(Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36', 'hex'))
   }
   const result = encode(obj)
   t.equal(result, 'magnet:?xt=urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36')
   t.deepEqual(decode(result), {
-    infoHashBuffer: Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36', 'hex'),
+    infoHashBuffer: new Uint8Array(Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36', 'hex')),
     infoHash: 'd2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
     xt: 'urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
     urlList: [],
@@ -87,13 +87,13 @@ test('encode: using infoHashBuffer', t => {
 
 test('encode: using infoHashV2Buffer', t => {
   const obj = {
-    infoHashV2Buffer: Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36d2474e86c95b19b8bcfdb92b', 'hex')
+    infoHashV2Buffer: new Uint8Array(Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36d2474e86c95b19b8bcfdb92b', 'hex'))
   }
   const result = encode(obj)
   t.equal(result, 'magnet:?xt=urn:btmh:1220d2474e86c95b19b8bcfdb92bc12c9d44667cfa36d2474e86c95b19b8bcfdb92b')
   t.deepEqual(decode(result), {
     infoHashV2: 'd2474e86c95b19b8bcfdb92bc12c9d44667cfa36d2474e86c95b19b8bcfdb92b',
-    infoHashV2Buffer: Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36d2474e86c95b19b8bcfdb92b', 'hex'),
+    infoHashV2Buffer: new Uint8Array(Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36d2474e86c95b19b8bcfdb92b', 'hex')),
     xt: 'urn:btmh:1220d2474e86c95b19b8bcfdb92bc12c9d44667cfa36d2474e86c95b19b8bcfdb92b',
     urlList: [],
     announce: [],
@@ -113,7 +113,7 @@ test('encode: select-only', t => {
   t.deepEqual(decode(result), {
     xt: 'urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
     infoHash: 'd2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
-    infoHashBuffer: Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36', 'hex'),
+    infoHashBuffer: new Uint8Array(Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36', 'hex')),
     urlList: [],
     announce: [],
     peerAddresses: [],
@@ -134,7 +134,7 @@ test('encode: peer-address single value', t => {
     xt: 'urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
     'x.pe': '123.213.32.10:47450',
     infoHash: 'd2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
-    infoHashBuffer: Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36', 'hex'),
+    infoHashBuffer: new Uint8Array(Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36', 'hex')),
     urlList: [],
     announce: [],
     peerAddresses: ['123.213.32.10:47450']
@@ -153,7 +153,7 @@ test('encode: peer-address multiple values', t => {
     xt: 'urn:btih:d2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
     'x.pe': ['123.213.32.10:47450', '[2001:db8::2]:55013'],
     infoHash: 'd2474e86c95b19b8bcfdb92bc12c9d44667cfa36',
-    infoHashBuffer: Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36', 'hex'),
+    infoHashBuffer: new Uint8Array(Buffer.from('d2474e86c95b19b8bcfdb92bc12c9d44667cfa36', 'hex')),
     urlList: [],
     announce: [],
     peerAddresses: ['123.213.32.10:47450', '[2001:db8::2]:55013']
@@ -172,7 +172,7 @@ test('encode: using publicKey', t => {
 })
 
 test('encode: using publicKeyBuffer', t => {
-  const publicKeyBuffer = Buffer.from('9a36edf0988ddc1a0fc02d4e8652cce87a71aaac71fce936e650a597c0fb72e0', 'hex')
+  const publicKeyBuffer = new Uint8Array(Buffer.from('9a36edf0988ddc1a0fc02d4e8652cce87a71aaac71fce936e650a597c0fb72e0', 'hex'))
   const obj = {
     publicKeyBuffer
   }
