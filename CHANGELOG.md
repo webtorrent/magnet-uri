@@ -1,3 +1,10 @@
+## [7.0.1](https://github.com/webtorrent/magnet-uri/compare/v7.0.0...v7.0.1) (2023-01-26)
+
+
+### Performance Improvements
+
+* drop buffer ([#64](https://github.com/webtorrent/magnet-uri/issues/64)) ([cf98664](https://github.com/webtorrent/magnet-uri/commit/cf98664336bfe813c4d1d55a54229667c01f0962))
+
 # [7.0.0](https://github.com/webtorrent/magnet-uri/compare/v6.2.0...v7.0.0) (2023-01-26)
 
 
