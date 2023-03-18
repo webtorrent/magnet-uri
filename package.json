@@ -14,7 +14,7 @@
   "dependencies": {
     "bep53-range": "^2.0.0",
     "thirty-two": "^1.0.2",
-    "uint8-util": "^2.1.7"
+    "uint8-util": "^2.1.9"
   },
   "devDependencies": {
     "@webtorrent/semantic-release-config": "1.0.8",
