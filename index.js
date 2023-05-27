@@ -67,7 +67,7 @@ function magnetURIDecode (uri) {
         result.infoHash = m[1].toLowerCase()
       } else if ((m = xt.match(/^urn:btih:(.{32})/))) {
         const decodedStr = base32.decode(m[1])
-        result.infoHash = bin2hex(decodedStr)
+        result.infoHash = bin2hex(decodedStr.toString('binary'))
       } else if ((m = xt.match(/^urn:btmh:1220(.{64})/))) {
         result.infoHashV2 = m[1].toLowerCase()
       }
