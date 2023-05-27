@@ -1,3 +1,10 @@
+## [7.0.4](https://github.com/webtorrent/magnet-uri/compare/v7.0.3...v7.0.4) (2023-05-27)
+
+
+### Bug Fixes
+
+* base32 in browser ([#72](https://github.com/webtorrent/magnet-uri/issues/72)) ([287c063](https://github.com/webtorrent/magnet-uri/commit/287c06310775917491d4d9a6a018d0368d7f8125))
+
 ## [7.0.3](https://github.com/webtorrent/magnet-uri/compare/v7.0.2...v7.0.3) (2023-04-02)
 
 
