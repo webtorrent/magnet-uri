@@ -1,3 +1,10 @@
+## [7.0.5](https://github.com/webtorrent/magnet-uri/compare/v7.0.4...v7.0.5) (2023-05-30)
+
+
+### Bug Fixes
+
+* replace 32 with maintained version ([#73](https://github.com/webtorrent/magnet-uri/issues/73)) ([2c041f4](https://github.com/webtorrent/magnet-uri/commit/2c041f40f77f5f7ca928faa1d919366ee1a4c53c))
+
 ## [7.0.4](https://github.com/webtorrent/magnet-uri/compare/v7.0.3...v7.0.4) (2023-05-27)
 
 
