@@ -1,7 +1,7 @@
 /*! magnet-uri. MIT License. WebTorrent LLC <https://webtorrent.io/opensource> */
-import base32 from 'thirty-two'
+import { decode } from '@thaunknown/thirty-two'
 import { parse, compose } from 'bep53-range'
-import { hex2arr, arr2hex, bin2hex } from 'uint8-util'
+import { hex2arr, arr2hex } from 'uint8-util'
 
 /**
  * Parse a magnet URI and return an object of keys/values
@@ -66,8 +66,7 @@ function magnetURIDecode (uri) {
       if ((m = xt.match(/^urn:btih:(.{40})/))) {
         result.infoHash = m[1].toLowerCase()
       } else if ((m = xt.match(/^urn:btih:(.{32})/))) {
-        const decodedStr = base32.decode(m[1])
-        result.infoHash = bin2hex(decodedStr.toString('binary'))
+        result.infoHash = arr2hex(decode(m[1]))
       } else if ((m = xt.match(/^urn:btmh:1220(.{64})/))) {
         result.infoHashV2 = m[1].toLowerCase()
       }
