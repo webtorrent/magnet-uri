@@ -20,7 +20,7 @@
     "@webtorrent/semantic-release-config": "1.0.10",
     "semantic-release": "21.1.2",
     "standard": "*",
-    "tape": "5.7.0"
+    "tape": "5.7.1"
   },
   "funding": [
     {
