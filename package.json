@@ -1,7 +1,7 @@
 {
   "name": "magnet-uri",
   "description": "Parse a magnet URI and return an object of keys/values",
-  "version": "7.0.6",
+  "version": "7.0.7",
   "author": {
     "name": "WebTorrent LLC",
     "email": "feross@webtorrent.io",
