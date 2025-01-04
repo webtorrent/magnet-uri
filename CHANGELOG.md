@@ -1,3 +1,10 @@
+## [7.0.6](https://github.com/webtorrent/magnet-uri/compare/v7.0.5...v7.0.6) (2025-01-04)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @thaunknown/thirty-two to ^1.0.5 ([#96](https://github.com/webtorrent/magnet-uri/issues/96)) ([55ae2a8](https://github.com/webtorrent/magnet-uri/commit/55ae2a84c7e62fc933168301837f513fd606331c))
+
 ## [7.0.5](https://github.com/webtorrent/magnet-uri/compare/v7.0.4...v7.0.5) (2023-05-30)
 
 
