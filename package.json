@@ -14,7 +14,7 @@
   "dependencies": {
     "@thaunknown/thirty-two": "^1.0.5",
     "bep53-range": "^2.0.0",
-    "uint8-util": "^2.2.6"
+    "uint8-util": "^2.3.2"
   },
   "devDependencies": {
     "@webtorrent/semantic-release-config": "1.0.11",
