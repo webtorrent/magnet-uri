@@ -1,3 +1,10 @@
+## [7.0.9](https://github.com/webtorrent/magnet-uri/compare/v7.0.8...v7.0.9) (2026-07-23)
+
+
+### Bug Fixes
+
+* **deps:** update dependency uint8-util to ^2.3.2 ([#129](https://github.com/webtorrent/magnet-uri/issues/129)) ([c0502e4](https://github.com/webtorrent/magnet-uri/commit/c0502e44fb6b64e1f5a2271652dedab1f5b3964a))
+
 ## [7.0.8](https://github.com/webtorrent/magnet-uri/compare/v7.0.7...v7.0.8) (2026-05-25)
 
 
