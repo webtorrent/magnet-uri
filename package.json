@@ -13,7 +13,7 @@
   "type": "module",
   "dependencies": {
     "@thaunknown/thirty-two": "^1.0.6",
-    "bep53-range": "^2.0.0",
+    "bep53-range": "^2.0.1",
     "uint8-util": "^2.3.2"
   },
   "devDependencies": {
