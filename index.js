@@ -28,26 +28,34 @@ function magnetURIDecode (uri) {
     const key = keyval[0]
     let val = keyval[1]
 
-    // Clean up torrent name
-    if (key === 'dn') val = decodeURIComponent(val).replace(/\+/g, ' ')
+    try {
+      // Clean up torrent name. Replace separators before decoding so an encoded
+      // literal plus sign (%2B) is preserved.
+      if (key === 'dn') val = decodeURIComponent(val.replace(/\+/g, ' '))
 
-    // Address tracker (tr), exact source (xs), and acceptable source (as) are encoded
-    // URIs, so decode them
-    if (key === 'tr' || key === 'xs' || key === 'as' || key === 'ws') {
-      val = decodeURIComponent(val)
+      // Address tracker (tr), exact source (xs), and acceptable source (as) are encoded
+      // URIs, so decode them
+      if (key === 'tr' || key === 'xs' || key === 'as' || key === 'ws') {
+        val = decodeURIComponent(val)
+      }
+
+      // Return keywords as an array. Split before decoding to preserve %2B.
+      if (key === 'kt') val = val.split('+').map(decodeURIComponent)
+
+      // Cast file index (ix) to a number
+      if (key === 'ix') val = Number(val)
+
+      // bep53
+      if (key === 'so') val = parse(decodeURIComponent(val).split(','))
+    } catch (err) {
+      // Ignore parameters with malformed percent encoding, as with other
+      // invalid parameters in a magnet URI.
+      if (err instanceof URIError) return
+      throw err
     }
 
-    // Return keywords as an array
-    if (key === 'kt') val = decodeURIComponent(val).split('+')
-
-    // Cast file index (ix) to a number
-    if (key === 'ix') val = Number(val)
-
-    // bep53
-    if (key === 'so') val = parse(decodeURIComponent(val).split(','))
-
     // If there are repeated parameters, return an array of values
-    if (result[key]) {
+    if (Object.prototype.hasOwnProperty.call(result, key)) {
       if (!Array.isArray(result[key])) {
         result[key] = [result[key]]
       }
@@ -63,11 +71,11 @@ function magnetURIDecode (uri) {
   if (result.xt) {
     const xts = Array.isArray(result.xt) ? result.xt : [result.xt]
     xts.forEach(xt => {
-      if ((m = xt.match(/^urn:btih:(.{40})/))) {
+      if ((m = xt.match(/^urn:btih:([a-f\d]{40})$/i))) {
         result.infoHash = m[1].toLowerCase()
-      } else if ((m = xt.match(/^urn:btih:(.{32})/))) {
+      } else if ((m = xt.match(/^urn:btih:([a-z2-7]{32})$/i))) {
         result.infoHash = arr2hex(decode(m[1]))
-      } else if ((m = xt.match(/^urn:btmh:1220(.{64})/))) {
+      } else if ((m = xt.match(/^urn:btmh:1220([a-f\d]{64})$/i))) {
         result.infoHashV2 = m[1].toLowerCase()
       }
     })
@@ -76,7 +84,7 @@ function magnetURIDecode (uri) {
   if (result.xs) {
     const xss = Array.isArray(result.xs) ? result.xs : [result.xs]
     xss.forEach(xs => {
-      if ((m = xs.match(/^urn:btpk:(.{64})/))) {
+      if ((m = xs.match(/^urn:btpk:([a-f\d]{64})$/i))) {
         result.publicKey = m[1].toLowerCase()
       }
     })
