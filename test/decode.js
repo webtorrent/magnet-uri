@@ -50,6 +50,43 @@ test('empty string as keys is okay', t => {
   t.end()
 })
 
+test('decode: repeated empty values are preserved', t => {
+  const result = magnet('magnet:?a=&a=x')
+
+  t.deepEqual(result.a, ['', 'x'])
+  t.end()
+})
+
+test('decode: ignores prototype-pollution keys', t => {
+  const result = magnet('magnet:?__proto__=polluted&constructor=polluted&prototype=polluted&dn=valid')
+
+  t.equal(Object.getPrototypeOf(result), Object.prototype)
+  t.equal(Object.prototype.hasOwnProperty.call(result, '__proto__'), false)
+  t.equal(Object.prototype.hasOwnProperty.call(result, 'constructor'), false)
+  t.equal(Object.prototype.hasOwnProperty.call(result, 'prototype'), false)
+  t.equal(result.dn, 'valid')
+  t.end()
+})
+
+test('decode: encoded plus signs are preserved', t => {
+  const result = magnet('magnet:?dn=a%2Bb+c&kt=a%2Bb+c')
+
+  t.equal(result.dn, 'a+b c')
+  t.deepEqual(result.kt, ['a+b', 'c'])
+  t.end()
+})
+
+test('decode: malformed percent encoding is ignored', t => {
+  const result = magnet('magnet:?dn=%E0%A4%A&tr=%E0%A4%A&kt=%E0%A4%A&so=%E0%A4%A&ix=1')
+
+  t.equal(result.dn, undefined)
+  t.equal(result.tr, undefined)
+  t.equal(result.kt, undefined)
+  t.equal(result.so, undefined)
+  t.equal(result.ix, 1)
+  t.end()
+})
+
 test('decode: invalid magnet URIs return empty object', t => {
   const invalid1 = 'magnet:?xt=urn:btih:==='
   const invalid2 = 'magnet:?xt'
@@ -77,6 +114,19 @@ test('decode: invalid magnet URIs return only valid keys (ignoring invalid ones)
 test('decode: extracts 40-char hex BitTorrent info_hash', t => {
   const result = magnet('magnet:?xt=urn:btih:aad050ee1bb22e196939547b134535824dabf0ce')
   t.equal(result.infoHash, 'aad050ee1bb22e196939547b134535824dabf0ce')
+  t.end()
+})
+
+test('decode: rejects invalid or trailing hash data', t => {
+  const invalidHex = magnet('magnet:?xt=urn:btih:zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz')
+  const trailingV1 = magnet('magnet:?xt=urn:btih:aad050ee1bb22e196939547b134535824dabf0cex')
+  const trailingV2 = magnet('magnet:?xt=urn:btmh:122080e00d84343afd2b6392e966c1267807461946ba9db1d5af4bb50779dcf1ab4ex')
+  const invalidPublicKey = magnet('magnet:?xs=urn:btpk:zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz')
+
+  t.equal(invalidHex.infoHash, undefined)
+  t.equal(trailingV1.infoHash, undefined)
+  t.equal(trailingV2.infoHashV2, undefined)
+  t.equal(invalidPublicKey.publicKey, undefined)
   t.end()
 })
 
