@@ -28,6 +28,10 @@ function magnetURIDecode (uri) {
     const key = keyval[0]
     let val = keyval[1]
 
+    // Ignore keys that can alter object internals when assigned from untrusted
+    // input.
+    if (key === '__proto__' || key === 'constructor' || key === 'prototype') return
+
     try {
       // Clean up torrent name. Replace separators before decoding so an encoded
       // literal plus sign (%2B) is preserved.

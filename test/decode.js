@@ -57,6 +57,17 @@ test('decode: repeated empty values are preserved', t => {
   t.end()
 })
 
+test('decode: ignores prototype-pollution keys', t => {
+  const result = magnet('magnet:?__proto__=polluted&constructor=polluted&prototype=polluted&dn=valid')
+
+  t.equal(Object.getPrototypeOf(result), Object.prototype)
+  t.equal(Object.prototype.hasOwnProperty.call(result, '__proto__'), false)
+  t.equal(Object.prototype.hasOwnProperty.call(result, 'constructor'), false)
+  t.equal(Object.prototype.hasOwnProperty.call(result, 'prototype'), false)
+  t.equal(result.dn, 'valid')
+  t.end()
+})
+
 test('decode: encoded plus signs are preserved', t => {
   const result = magnet('magnet:?dn=a%2Bb+c&kt=a%2Bb+c')
 
